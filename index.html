@@ -1,1 +1,396 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Školní systém</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<aside class="sidebar" id="sidebar">
+    <div class="logo">
+        <div class="logo-box">Š</div>
+        <div>
+            <strong>ŠKOLA</strong>
+            <span>Školní systém</span>
+        </div>
+    </div>
+
+    <nav>
+        <button class="nav-btn active" data-page="home">⌂ <span>Domů</span></button>
+        <button class="nav-btn" data-page="schedule">▦ <span>Rozvrh</span></button>
+        <button class="nav-btn" data-page="substitutions">↻ <span>Suplování</span></button>
+        <button class="nav-btn" data-page="news">● <span>Zprávy</span></button>
+        <button class="nav-btn" data-page="calendar">□ <span>Kalendář</span></button>
+        <button class="nav-btn" data-page="admin">⚙ <span>Administrace</span></button>
+    </nav>
+</aside>
+
+
+<main class="main">
+
+    <header class="topbar">
+        <button id="mobileMenu" class="mobile-menu">☰</button>
+
+        <div>
+            <h1 id="pageTitle">Domů</h1>
+            <p id="todayText"></p>
+        </div>
+
+        <div class="user">
+            <div class="avatar">A</div>
+            <div>
+                <strong>Administrátor</strong>
+                <small>Správce školy</small>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- DOMŮ -->
+    <section id="home" class="page active">
+
+        <div class="hero">
+            <div>
+                <div class="eyebrow">ŠKOLNÍ SYSTÉM</div>
+                <h2>Vítejte ve školním systému</h2>
+                <p>Rozvrhy, suplování, zprávy a školní informace.</p>
+            </div>
+
+            <button class="primary" data-go="schedule">
+                Zobrazit rozvrh
+            </button>
+        </div>
+
+
+        <div class="stats">
+
+            <div class="stat">
+                <span>DNEŠNÍ HODINY</span>
+                <strong id="homeLessons">0</strong>
+            </div>
+
+            <div class="stat">
+                <span>DNEŠNÍ SUPLOVÁNÍ</span>
+                <strong id="homeSubs">0</strong>
+            </div>
+
+            <div class="stat">
+                <span>ZPRÁVY</span>
+                <strong id="homeNews">0</strong>
+            </div>
+
+        </div>
+
+
+        <div class="two-columns">
+
+            <div class="panel">
+                <div class="panel-title">
+                    <h3>Nejnovější zprávy</h3>
+                    <button class="link-btn" data-go="news">Zobrazit vše</button>
+                </div>
+
+                <div id="homeNewsList"></div>
+            </div>
+
+
+            <div class="panel">
+                <div class="panel-title">
+                    <h3>Dnešní rozvrh</h3>
+                </div>
+
+                <div id="homeDailySchedule"></div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ROZVRH -->
+    <section id="schedule" class="page">
+
+        <div class="page-header">
+
+            <div>
+                <h2>Rozvrh</h2>
+                <p>Vyber třídu a způsob zobrazení.</p>
+            </div>
+
+            <div class="schedule-controls">
+
+                <select id="classSelect"></select>
+
+                <div class="view-buttons">
+                    <button class="view-btn active" data-view="classic">
+                        Klasický
+                    </button>
+
+                    <button class="view-btn" data-view="daily">
+                        Denní
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- KLASICKÝ -->
+        <div id="classicView">
+
+            <div class="panel schedule-wrapper">
+
+                <div class="classic-scroll">
+
+                    <table class="timetable">
+
+                        <thead>
+                            <tr>
+                                <th class="day-column"></th>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>5A</th>
+                                <th>5B</th>
+                                <th>6</th>
+                                <th>7</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="classicSchedule"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DENNÍ -->
+        <div id="dailyView" class="hidden">
+
+            <div class="daily-navigation">
+
+                <button id="previousDay">‹</button>
+
+                <div>
+                    <strong id="dailyDate"></strong>
+                    <span id="dailyDay"></span>
+                </div>
+
+                <button id="nextDay">›</button>
+
+            </div>
+
+            <div class="panel">
+
+                <div id="dailySchedule"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- SUPLOVÁNÍ -->
+    <section id="substitutions" class="page">
+
+        <div class="page-header">
+
+            <div>
+                <h2>Suplování</h2>
+                <p>Suplování se zadává vždy ke konkrétnímu datu.</p>
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="filter-row">
+
+                <label>
+                    Zobrazit datum
+                    <input type="date" id="substitutionDate">
+                </label>
+
+            </div>
+
+            <div id="substitutionList"></div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ZPRÁVY -->
+    <section id="news" class="page">
+
+        <div class="page-header">
+
+            <div>
+                <h2>Zprávy</h2>
+                <p>Školní informace a oznámení.</p>
+            </div>
+
+        </div>
+
+        <div id="newsList" class="news-list"></div>
+
+    </section>
+
+
+
+    <!-- KALENDÁŘ -->
+    <section id="calendar" class="page">
+
+        <div class="page-header">
+
+            <div>
+                <h2>Kalendář</h2>
+                <p>Školní události.</p>
+            </div>
+
+        </div>
+
+        <div id="calendarList" class="calendar-list"></div>
+
+    </section>
+
+
+
+    <!-- ADMINISTRACE -->
+    <section id="admin" class="page">
+
+        <div class="page-header">
+
+            <div>
+                <h2>Administrace</h2>
+                <p>Zde můžeš přidávat zprávy a suplování.</p>
+            </div>
+
+            <span class="admin-label">ADMIN</span>
+
+        </div>
+
+
+        <div class="admin-grid">
+
+
+            <!-- ZPRÁVA -->
+            <div class="panel">
+
+                <h3>Přidat zprávu</h3>
+
+                <form id="newsForm">
+
+                    <label>
+                        Nadpis
+                        <input id="newsTitle" required>
+                    </label>
+
+                    <label>
+                        Text zprávy
+                        <textarea id="newsText" required></textarea>
+                    </label>
+
+                    <button class="primary" type="submit">
+                        Přidat zprávu
+                    </button>
+
+                </form>
+
+            </div>
+
+
+
+            <!-- SUPLOVÁNÍ -->
+            <div class="panel">
+
+                <h3>Přidat suplování</h3>
+
+                <form id="substitutionForm">
+
+                    <label>
+                        Datum
+                        <input type="date" id="subDate" required>
+                    </label>
+
+                    <label>
+                        Třída
+                        <input id="subClass" placeholder="9. A" required>
+                    </label>
+
+                    <label>
+                        Hodina
+                        <select id="subLesson" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5A">5A</option>
+                            <option value="5B">5B</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Předmět
+                        <input id="subSubject" placeholder="Matematika" required>
+                    </label>
+
+                    <label>
+                        Učitel
+                        <input id="subTeacher" placeholder="Novák Jan" required>
+                    </label>
+
+                    <label>
+                        Změna
+                        <input id="subChange" placeholder="Zastupuje..." required>
+                    </label>
+
+                    <button class="primary" type="submit">
+                        Přidat suplování
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel info-panel">
+
+            <h3>Ukládání</h3>
+
+            <p>
+                Zprávy a suplování se ukládají do prohlížeče pomocí
+                localStorage. Později můžeme přidat skutečnou databázi,
+                aby se změny zobrazily všem uživatelům.
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
 
