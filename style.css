@@ -10,7 +10,9 @@ body {
 }
 
 
-/* SIDEBAR */
+/* ==================================================
+   SIDEBAR
+================================================== */
 
 .sidebar {
     position: fixed;
@@ -58,7 +60,6 @@ body {
     margin-top: 2px;
 }
 
-
 nav {
     display: grid;
     gap: 5px;
@@ -87,7 +88,9 @@ nav {
 }
 
 
-/* MAIN */
+/* ==================================================
+   MAIN
+================================================== */
 
 .main {
     margin-left: 245px;
@@ -95,7 +98,9 @@ nav {
 }
 
 
-/* TOPBAR */
+/* ==================================================
+   TOPBAR
+================================================== */
 
 .topbar {
     height: 82px;
@@ -158,7 +163,9 @@ nav {
 }
 
 
-/* PAGES */
+/* ==================================================
+   PAGES
+================================================== */
 
 .page {
     display: none;
@@ -172,10 +179,16 @@ nav {
 }
 
 
-/* HOME */
+/* ==================================================
+   HOME
+================================================== */
 
 .hero {
-    background: linear-gradient(110deg, #1769e0, #3e8cf4);
+    background: linear-gradient(
+        110deg,
+        #1769e0,
+        #3e8cf4
+    );
     color: white;
     border-radius: 15px;
     padding: 32px;
@@ -231,7 +244,9 @@ nav {
 }
 
 
-/* PANELS */
+/* ==================================================
+   PANELY
+================================================== */
 
 .panel {
     background: white;
@@ -259,15 +274,10 @@ nav {
     font-size: 15px;
 }
 
-.link-btn {
-    border: 0;
-    background: none;
-    color: #1769e0;
-    cursor: pointer;
-}
 
-
-/* PAGE HEADER */
+/* ==================================================
+   HEADER STRÁNEK
+================================================== */
 
 .page-header {
     display: flex;
@@ -286,6 +296,11 @@ nav {
     font-size: 12px;
     margin: 5px 0 0;
 }
+
+
+/* ==================================================
+   ROZVRH OVLÁDÁNÍ
+================================================== */
 
 .schedule-controls {
     display: flex;
@@ -322,7 +337,9 @@ nav {
 }
 
 
-/* KLASICKÝ ROZVRH */
+/* ==================================================
+   KLASICKÝ ROZVRH
+================================================== */
 
 .schedule-wrapper {
     padding: 12px;
@@ -409,7 +426,9 @@ nav {
 }
 
 
-/* DENNÍ ROZVRH */
+/* ==================================================
+   DENNÍ ROZVRH
+================================================== */
 
 .hidden {
     display: none !important;
@@ -456,6 +475,7 @@ nav {
     border-radius: 9px;
     overflow: hidden;
     margin-bottom: 9px;
+    background: white;
 }
 
 .daily-number {
@@ -488,7 +508,56 @@ nav {
 }
 
 
-/* SUPLOVÁNÍ */
+/* ==================================================
+   SUPLOVÁNÍ V DENNÍM ROZVRHU
+================================================== */
+
+.daily-substitution {
+    position: relative;
+    background: #fffde7;
+    margin: -7px -16px;
+    padding: 13px 16px;
+    border-left: 5px solid #ffeb3b;
+}
+
+.daily-has-substitution {
+    border-color: #e4e4d0;
+}
+
+.substitution-teacher {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+.old-teacher {
+    color: #555;
+}
+
+.arrow {
+    color: #111;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.substitution-teacher strong {
+    color: #111;
+}
+
+.substitution-label {
+    display: inline-block;
+    margin-top: 7px;
+    font-size: 9px;
+    font-weight: bold;
+    color: #777;
+    letter-spacing: .5px;
+}
+
+
+/* ==================================================
+   SUPLOVÁNÍ - EDUPAGE STYL
+================================================== */
 
 .filter-row {
     margin-bottom: 18px;
@@ -506,25 +575,112 @@ nav {
     border-radius: 7px;
 }
 
-.substitution {
-    display: grid;
-    grid-template-columns: 90px 80px 1fr 1fr 1.5fr;
-    gap: 12px;
-    align-items: center;
-    border: 1px solid #e7eaee;
-    border-radius: 8px;
-    padding: 14px;
-    margin-bottom: 8px;
-    font-size: 12px;
+
+.substitution-card {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    min-height: 105px;
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    border: 1px solid #e1e4e8;
+    box-shadow: 0 2px 5px rgba(0,0,0,.08);
 }
 
-.substitution-change {
-    color: #1769e0;
+
+.substitution-card::before {
+    content: "";
+    width: 7px;
+    background: #ffeb3b;
+    flex-shrink: 0;
+}
+
+
+.substitution-card-number {
+    width: 70px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 25px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #111;
+}
+
+
+.substitution-card-content {
+    flex: 1;
+    padding: 20px 10px 18px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+
+.substitution-card-main {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+
+.substitution-subject {
+    font-size: 22px;
+    color: #222;
+}
+
+
+.substitution-teacher-line {
+    font-size: 17px;
+    color: #222;
+    line-height: 1.3;
+}
+
+
+.substitution-old {
+    color: #555;
+}
+
+
+.substitution-arrow {
+    font-size: 21px;
+    font-weight: bold;
+    margin: 0 4px;
+}
+
+
+.substitution-card-class {
+    color: #777;
+    font-size: 13px;
+    padding-right: 10px;
+}
+
+
+.delete-btn {
+    align-self: center;
+    margin-right: 12px;
+    border: 0;
+    background: #fff0f0;
+    color: #d93030;
+    padding: 8px 10px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 11px;
     font-weight: bold;
 }
 
+.delete-btn:hover {
+    background: #ffdede;
+}
 
-/* ZPRÁVY */
+
+/* ==================================================
+   ZPRÁVY
+================================================== */
 
 .news-list {
     display: grid;
@@ -557,8 +713,17 @@ nav {
     font-size: 10px;
 }
 
+.news-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+}
 
-/* KALENDÁŘ */
+
+/* ==================================================
+   KALENDÁŘ
+================================================== */
 
 .calendar-list {
     display: grid;
@@ -600,7 +765,9 @@ nav {
 }
 
 
-/* ADMIN */
+/* ==================================================
+   ADMIN
+================================================== */
 
 .admin-grid {
     display: grid;
@@ -666,7 +833,9 @@ form textarea {
 }
 
 
-/* EMPTY */
+/* ==================================================
+   PRÁZDNÉ
+================================================== */
 
 .empty {
     text-align: center;
@@ -676,7 +845,9 @@ form textarea {
 }
 
 
-/* MOBILE */
+/* ==================================================
+   MOBILE
+================================================== */
 
 @media (max-width: 900px) {
 
@@ -736,60 +907,64 @@ form textarea {
         flex-wrap: wrap;
     }
 
-    .substitution {
-        grid-template-columns: 60px 60px 1fr;
+    .substitution-card {
+        min-height: 90px;
     }
 
-    .substitution-change {
-        grid-column: 3;
-    }
-}
-/* MAZÁNÍ */
-
-.delete-btn {
-    border: 0;
-    background: #fff0f0;
-    color: #d93030;
-    padding: 7px 10px;
-    border-radius: 7px;
-    cursor: pointer;
-    font-size: 11px;
-    font-weight: bold;
-    white-space: nowrap;
-}
-
-.delete-btn:hover {
-    background: #ffdede;
-}
-
-.news-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 15px;
-}
-
-.news-card-header h3 {
-    margin-bottom: 6px;
-}
-
-.news-card-header time {
-    margin-top: 0;
-}
-
-@media (max-width: 700px) {
-
-    .news-card-header {
-        flex-direction: column;
+    .substitution-card-number {
+        width: 50px;
+        font-size: 20px;
     }
 
-    .substitution {
-        grid-template-columns: 1fr 1fr;
+    .substitution-card-content {
+        display: block;
+        padding: 15px 5px 15px 0;
     }
 
-    .substitution .delete-btn {
-        grid-column: 1 / -1;
-        justify-self: start;
+    .substitution-subject {
+        font-size: 18px;
+    }
+
+    .substitution-teacher-line {
+        font-size: 14px;
+    }
+
+    .substitution-card-class {
+        margin-top: 6px;
+    }
+
+    .delete-btn {
+        margin-right: 7px;
+    }
+
+}
+
+
+/* ==================================================
+   MALÝ TELEFON
+================================================== */
+
+@media (max-width: 550px) {
+
+    .substitution-card::before {
+        width: 5px;
+    }
+
+    .substitution-card-number {
+        width: 42px;
+        font-size: 18px;
+    }
+
+    .substitution-subject {
+        font-size: 16px;
+    }
+
+    .substitution-teacher-line {
+        font-size: 13px;
+    }
+
+    .substitution-card-content {
+        padding-left: 5px;
     }
 
 }
