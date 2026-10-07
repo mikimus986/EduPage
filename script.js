@@ -60,7 +60,8 @@ function loadData() {
 
     try {
 
-        const saved = localStorage.getItem("schoolSystemData");
+        const saved =
+            localStorage.getItem("schoolSystemData");
 
         if (saved) {
             return JSON.parse(saved);
@@ -68,7 +69,10 @@ function loadData() {
 
     } catch (error) {
 
-        console.error("Chyba při načítání dat:", error);
+        console.error(
+            "Chyba při načítání dat:",
+            error
+        );
 
     }
 
@@ -92,15 +96,18 @@ function saveData() {
 
 function formatDate(date) {
 
-    const year = date.getFullYear();
+    const year =
+        date.getFullYear();
 
-    const month = String(
-        date.getMonth() + 1
-    ).padStart(2, "0");
+    const month =
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0");
 
-    const day = String(
-        date.getDate()
-    ).padStart(2, "0");
+    const day =
+        String(
+            date.getDate()
+        ).padStart(2, "0");
 
     return `${year}-${month}-${day}`;
 }
@@ -108,15 +115,15 @@ function formatDate(date) {
 
 function setToday() {
 
-    const today = new Date();
-
     const element =
-        document.getElementById("todayText");
+        document.getElementById(
+            "todayText"
+        );
 
     if (!element) return;
 
     element.textContent =
-        today.toLocaleDateString(
+        new Date().toLocaleDateString(
             "cs-CZ",
             {
                 weekday: "long",
@@ -135,26 +142,38 @@ function setToday() {
 
 function setupNavigation() {
 
-    document.querySelectorAll(".nav-btn")
+    document
+        .querySelectorAll(".nav-btn")
         .forEach(button => {
 
-            button.addEventListener("click", () => {
+            button.addEventListener(
+                "click",
+                () => {
 
-                showPage(button.dataset.page);
+                    showPage(
+                        button.dataset.page
+                    );
 
-            });
+                }
+            );
 
         });
 
 
-    document.querySelectorAll("[data-go]")
+    document
+        .querySelectorAll("[data-go]")
         .forEach(button => {
 
-            button.addEventListener("click", () => {
+            button.addEventListener(
+                "click",
+                () => {
 
-                showPage(button.dataset.go);
+                    showPage(
+                        button.dataset.go
+                    );
 
-            });
+                }
+            );
 
         });
 
@@ -163,7 +182,8 @@ function setupNavigation() {
 
 function showPage(page) {
 
-    document.querySelectorAll(".page")
+    document
+        .querySelectorAll(".page")
         .forEach(section => {
 
             section.classList.toggle(
@@ -174,7 +194,8 @@ function showPage(page) {
         });
 
 
-    document.querySelectorAll(".nav-btn")
+    document
+        .querySelectorAll(".nav-btn")
         .forEach(button => {
 
             button.classList.toggle(
@@ -186,15 +207,25 @@ function showPage(page) {
 
 
     const title =
-        document.getElementById("pageTitle");
+        document.getElementById(
+            "pageTitle"
+        );
 
-    if (title && pageTitles[page]) {
-        title.textContent = pageTitles[page];
+    if (
+        title &&
+        pageTitles[page]
+    ) {
+
+        title.textContent =
+            pageTitles[page];
+
     }
 
 
     const sidebar =
-        document.getElementById("sidebar");
+        document.getElementById(
+            "sidebar"
+        );
 
     if (sidebar) {
         sidebar.classList.remove("open");
@@ -232,19 +263,28 @@ function showPage(page) {
 function setupMobileMenu() {
 
     const button =
-        document.getElementById("mobileMenu");
+        document.getElementById(
+            "mobileMenu"
+        );
 
     if (!button) return;
 
 
-    button.addEventListener("click", () => {
+    button.addEventListener(
+        "click",
+        () => {
 
-        const sidebar =
-            document.getElementById("sidebar");
+            const sidebar =
+                document.getElementById(
+                    "sidebar"
+                );
 
-        sidebar.classList.toggle("open");
+            sidebar.classList.toggle(
+                "open"
+            );
 
-    });
+        }
+    );
 
 }
 
@@ -256,7 +296,9 @@ function setupMobileMenu() {
 function setupSchedule() {
 
     const select =
-        document.getElementById("classSelect");
+        document.getElementById(
+            "classSelect"
+        );
 
 
     if (select) {
@@ -278,7 +320,8 @@ function setupSchedule() {
     }
 
 
-    document.querySelectorAll(".view-btn")
+    document
+        .querySelectorAll(".view-btn")
         .forEach(button => {
 
             button.addEventListener(
@@ -290,15 +333,21 @@ function setupSchedule() {
 
 
                     document
-                        .querySelectorAll(".view-btn")
-                        .forEach(btn =>
+                        .querySelectorAll(
+                            ".view-btn"
+                        )
+                        .forEach(btn => {
+
                             btn.classList.remove(
                                 "active"
-                            )
-                        );
+                            );
+
+                        });
 
 
-                    button.classList.add("active");
+                    button.classList.add(
+                        "active"
+                    );
 
                     updateView();
 
@@ -357,7 +406,7 @@ function setupSchedule() {
 
 
 /* ==================================================
-   VÝBĚR TŘÍDY
+   TŘÍDY
 ================================================== */
 
 function updateClassSelect() {
@@ -373,24 +422,40 @@ function updateClassSelect() {
     select.innerHTML = "";
 
 
-    data.classes.forEach(className => {
+    data.classes.forEach(
+        className => {
 
-        const option =
-            document.createElement("option");
+            const option =
+                document.createElement(
+                    "option"
+                );
 
-        option.value = className;
-        option.textContent = className;
+            option.value =
+                className;
 
-        select.appendChild(option);
+            option.textContent =
+                className;
 
-    });
+            select.appendChild(
+                option
+            );
+
+        }
+    );
 
 
-    if (data.classes.includes(selectedClass)) {
+    if (
+        data.classes.includes(
+            selectedClass
+        )
+    ) {
 
-        select.value = selectedClass;
+        select.value =
+            selectedClass;
 
-    } else if (data.classes.length > 0) {
+    } else if (
+        data.classes.length > 0
+    ) {
 
         selectedClass =
             data.classes[0];
@@ -404,7 +469,7 @@ function updateClassSelect() {
 
 
 /* ==================================================
-   PŘEPÍNÁNÍ KLASICKÝ / DENNÍ
+   PŘEPÍNÁNÍ ROZVRHU
 ================================================== */
 
 function updateView() {
@@ -440,7 +505,9 @@ function updateView() {
     }
 
 
-    if (selectedView === "daily") {
+    if (
+        selectedView === "daily"
+    ) {
 
         renderDaily();
 
@@ -464,7 +531,9 @@ function renderSchedule() {
 
 
     const schedule =
-        data.schedules[selectedClass];
+        data.schedules[
+            selectedClass
+        ];
 
 
     if (!schedule) {
@@ -491,6 +560,7 @@ function renderSchedule() {
 
         html += `
             <tr>
+
                 <td class="day-name">
                     ${day}
                 </td>
@@ -518,7 +588,8 @@ function renderSchedule() {
     });
 
 
-    table.innerHTML = html;
+    table.innerHTML =
+        html;
 
 }
 
@@ -534,14 +605,13 @@ function renderClassicLesson(lesson) {
     }
 
 
-    /* Dvě skupiny */
-
     if (Array.isArray(lesson)) {
 
         return `
             <td class="lesson-cell">
 
-                ${lesson.map(group => `
+                ${lesson.map(
+                    group => `
 
                     <div class="lesson-group">
 
@@ -559,15 +629,14 @@ function renderClassicLesson(lesson) {
 
                     </div>
 
-                `).join("")}
+                `
+                ).join("")}
 
             </td>
         `;
 
     }
 
-
-    /* Jedna hodina */
 
     return `
         <td class="lesson-cell">
@@ -595,6 +664,26 @@ function renderClassicLesson(lesson) {
 
 
 /* ==================================================
+   NAJDE SUPLOVÁNÍ PRO KONKRÉTNÍ HODINU
+================================================== */
+
+function getSubstitution(
+    date,
+    className,
+    lesson
+) {
+
+    return data.substitutions.find(
+        item =>
+            item.date === date &&
+            item.className === className &&
+            String(item.lesson) === String(lesson)
+    );
+
+}
+
+
+/* ==================================================
    DENNÍ ROZVRH
 ================================================== */
 
@@ -616,7 +705,11 @@ function renderDaily() {
         );
 
 
-    if (!dateText || !dayText || !container) {
+    if (
+        !dateText ||
+        !dayText ||
+        !container
+    ) {
         return;
     }
 
@@ -644,6 +737,7 @@ function renderDaily() {
         dayText.textContent =
             "Víkend";
 
+
         container.innerHTML = `
             <div class="empty">
                 Dnes není školní den.
@@ -663,11 +757,22 @@ function renderDaily() {
         day;
 
 
+    const date =
+        formatDate(
+            dailyDate
+        );
+
+
     const schedule =
-        data.schedules[selectedClass];
+        data.schedules[
+            selectedClass
+        ];
 
 
-    if (!schedule || !schedule[day]) {
+    if (
+        !schedule ||
+        !schedule[day]
+    ) {
 
         container.innerHTML = `
             <div class="empty">
@@ -694,68 +799,204 @@ function renderDaily() {
         }
 
 
-        html += `
-            <div class="daily-lesson">
-
-                <div class="daily-number">
-                    ${period}. hod.
-                </div>
-
-                <div class="daily-content">
-        `;
-
+        /*
+        ------------------------------------------
+        Dvě skupiny
+        ------------------------------------------
+        */
 
         if (Array.isArray(lesson)) {
 
+            html += `
+                <div class="daily-lesson">
+
+                    <div class="daily-number">
+                        ${period}. hod.
+                    </div>
+
+                    <div class="daily-content">
+            `;
+
+
             lesson.forEach(group => {
 
-                html += `
-                    <div class="daily-group">
+                const substitution =
+                    getSubstitution(
+                        date,
+                        selectedClass,
+                        period
+                    );
 
-                        <div class="daily-subject">
-                            ${escapeHTML(
-                                group.subject
-                            )}
+
+                if (substitution) {
+
+                    html += `
+                        <div class="daily-group daily-substitution">
+
+                            <div class="daily-subject">
+                                ${escapeHTML(
+                                    group.subject
+                                )}
+                            </div>
+
+                            <div class="daily-teacher substitution-teacher">
+
+                                <span class="old-teacher">
+                                    (${escapeHTML(
+                                        substitution.teacher
+                                    )})
+                                </span>
+
+                                <span class="arrow">
+                                    →
+                                </span>
+
+                                <strong>
+                                    ${escapeHTML(
+                                        substitution.change
+                                    )}
+                                </strong>
+
+                            </div>
+
+                            <div class="substitution-label">
+                                SUPLOVÁNÍ
+                            </div>
+
                         </div>
+                    `;
 
-                        <div class="daily-teacher">
-                            ${escapeHTML(
-                                group.teacher
-                            )}
+                } else {
+
+                    html += `
+                        <div class="daily-group">
+
+                            <div class="daily-subject">
+                                ${escapeHTML(
+                                    group.subject
+                                )}
+                            </div>
+
+                            <div class="daily-teacher">
+                                ${escapeHTML(
+                                    group.teacher
+                                )}
+                            </div>
+
+                        </div>
+                    `;
+
+                }
+
+            });
+
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            return;
+        }
+
+
+        /*
+        ------------------------------------------
+        Jedna hodina
+        ------------------------------------------
+        */
+
+        const substitution =
+            getSubstitution(
+                date,
+                selectedClass,
+                period
+            );
+
+
+        if (substitution) {
+
+            html += `
+                <div class="daily-lesson daily-has-substitution">
+
+                    <div class="daily-number">
+                        ${period}. hod.
+                    </div>
+
+                    <div class="daily-content">
+
+                        <div class="daily-group daily-substitution">
+
+                            <div class="daily-subject">
+                                ${escapeHTML(
+                                    lesson.subject
+                                )}
+                            </div>
+
+                            <div class="daily-teacher substitution-teacher">
+
+                                <span class="old-teacher">
+                                    (${escapeHTML(
+                                        substitution.teacher
+                                    )})
+                                </span>
+
+                                <span class="arrow">
+                                    →
+                                </span>
+
+                                <strong>
+                                    ${escapeHTML(
+                                        substitution.change
+                                    )}
+                                </strong>
+
+                            </div>
+
+                            <div class="substitution-label">
+                                SUPLOVÁNÍ
+                            </div>
+
                         </div>
 
                     </div>
-                `;
 
-            });
+                </div>
+            `;
 
         } else {
 
             html += `
-                <div class="daily-group">
+                <div class="daily-lesson">
 
-                    <div class="daily-subject">
-                        ${escapeHTML(
-                            lesson.subject
-                        )}
+                    <div class="daily-number">
+                        ${period}. hod.
                     </div>
 
-                    <div class="daily-teacher">
-                        ${escapeHTML(
-                            lesson.teacher
-                        )}
+                    <div class="daily-content">
+
+                        <div class="daily-group">
+
+                            <div class="daily-subject">
+                                ${escapeHTML(
+                                    lesson.subject
+                                )}
+                            </div>
+
+                            <div class="daily-teacher">
+                                ${escapeHTML(
+                                    lesson.teacher
+                                )}
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>
             `;
 
         }
-
-
-        html += `
-                </div>
-            </div>
-        `;
 
     });
 
@@ -786,7 +1027,9 @@ function setupSubstitutionFilter() {
 
 
     input.value =
-        formatDate(new Date());
+        formatDate(
+            new Date()
+        );
 
 
     input.addEventListener(
@@ -798,7 +1041,7 @@ function setupSubstitutionFilter() {
 
 
 /* ==================================================
-   SUPLOVÁNÍ - ZOBRAZENÍ
+   SUPLOVÁNÍ - VZHLED
 ================================================== */
 
 function renderSubstitutions() {
@@ -814,26 +1057,38 @@ function renderSubstitutions() {
         );
 
 
-    if (!input || !list) return;
+    if (
+        !input ||
+        !list
+    ) {
+        return;
+    }
 
 
     const date =
         input.value ||
-        formatDate(new Date());
+        formatDate(
+            new Date()
+        );
 
 
     const substitutions =
         data.substitutions
-            .map((item, index) => ({
-                ...item,
-                originalIndex: index
-            }))
+            .map(
+                (item, index) => ({
+                    ...item,
+                    originalIndex: index
+                })
+            )
             .filter(
-                item => item.date === date
+                item =>
+                    item.date === date
             );
 
 
-    if (substitutions.length === 0) {
+    if (
+        substitutions.length === 0
+    ) {
 
         list.innerHTML = `
             <div class="empty">
@@ -847,50 +1102,70 @@ function renderSubstitutions() {
 
 
     list.innerHTML =
-        substitutions.map(item => `
+        substitutions
+            .map(
+                item => `
 
-            <div class="substitution">
+                <div class="substitution-card">
 
-                <strong>
-                    ${escapeHTML(
-                        item.lesson
-                    )}. hod.
-                </strong>
+                    <div class="substitution-card-number">
+                        ${escapeHTML(
+                            item.lesson
+                        )}
+                    </div>
 
-                <span>
-                    ${escapeHTML(
-                        item.className
-                    )}
-                </span>
+                    <div class="substitution-card-content">
 
-                <span>
-                    ${escapeHTML(
-                        item.subject
-                    )}
-                </span>
+                        <div class="substitution-card-main">
 
-                <span>
-                    ${escapeHTML(
-                        item.teacher
-                    )}
-                </span>
+                            <span class="substitution-subject">
+                                ${escapeHTML(
+                                    item.subject
+                                )}
+                            </span>
 
-                <span class="substitution-change">
-                    ${escapeHTML(
-                        item.change
-                    )}
-                </span>
+                            <span class="substitution-teacher-line">
 
-                <button
-                    class="delete-btn"
-                    onclick="deleteSubstitution(${item.originalIndex})"
-                >
-                    🗑 Smazat
-                </button>
+                                <span class="substitution-old">
+                                    (${escapeHTML(
+                                        item.teacher
+                                    )})
+                                </span>
 
-            </div>
+                                <span class="substitution-arrow">
+                                    →
+                                </span>
 
-        `).join("");
+                                <strong>
+                                    ${escapeHTML(
+                                        item.change
+                                    )}
+                                </strong>
+
+                            </span>
+
+                        </div>
+
+                        <div class="substitution-card-class">
+                            ${escapeHTML(
+                                item.className
+                            )}
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteSubstitution(${item.originalIndex})"
+                    >
+                        🗑
+                    </button>
+
+                </div>
+
+            `
+            )
+            .join("");
 
 }
 
@@ -943,9 +1218,11 @@ function deleteSubstitution(index) {
 
 function setupAdministration() {
 
-    /* ----------------------------------------------
-       NOVÁ ZPRÁVA
-    ---------------------------------------------- */
+    /*
+    ------------------------------------------
+    ZPRÁVY
+    ------------------------------------------
+    */
 
     const newsForm =
         document.getElementById(
@@ -1005,12 +1282,9 @@ function setupAdministration() {
 
                 saveData();
 
-
                 newsForm.reset();
 
-
                 renderEverything();
-
 
                 showPage("news");
 
@@ -1020,9 +1294,11 @@ function setupAdministration() {
     }
 
 
-    /* ----------------------------------------------
-       NOVÉ SUPLOVÁNÍ
-    ---------------------------------------------- */
+    /*
+    ------------------------------------------
+    SUPLOVÁNÍ
+    ------------------------------------------
+    */
 
     const substitutionForm =
         document.getElementById(
@@ -1109,13 +1385,14 @@ function setupAdministration() {
 
 
                 if (filter) {
+
                     filter.value =
                         item.date;
+
                 }
 
 
                 renderEverything();
-
 
                 showPage(
                     "substitutions"
@@ -1158,48 +1435,50 @@ function renderNews() {
 
 
     container.innerHTML =
-        data.news.map((item, index) => `
+        data.news
+            .map(
+                (item, index) => `
 
-            <article class="news-card">
+                <article class="news-card">
 
-                <div class="news-card-header">
+                    <div class="news-card-header">
 
-                    <div>
+                        <div>
 
-                        <h3>
-                            ${escapeHTML(
-                                item.title
-                            )}
-                        </h3>
+                            <h3>
+                                ${escapeHTML(
+                                    item.title
+                                )}
+                            </h3>
 
-                        <time>
-                            ${escapeHTML(
-                                item.date
-                            )}
-                        </time>
+                            <time>
+                                ${escapeHTML(
+                                    item.date
+                                )}
+                            </time>
+
+                        </div>
+
+                        <button
+                            class="delete-btn"
+                            onclick="deleteNews(${index})"
+                        >
+                            🗑 Smazat
+                        </button>
 
                     </div>
 
+                    <p>
+                        ${escapeHTML(
+                            item.text
+                        )}
+                    </p>
 
-                    <button
-                        class="delete-btn"
-                        onclick="deleteNews(${index})"
-                    >
-                        🗑 Smazat
-                    </button>
+                </article>
 
-                </div>
-
-
-                <p>
-                    ${escapeHTML(
-                        item.text
-                    )}
-                </p>
-
-            </article>
-
-        `).join("");
+            `
+            )
+            .join("");
 
 }
 
@@ -1275,46 +1554,49 @@ function renderCalendar() {
 
 
     container.innerHTML =
-        data.calendar.map(item => `
+        data.calendar
+            .map(
+                item => `
 
-            <article class="calendar-item">
+                <article class="calendar-item">
 
-                <div class="calendar-date">
+                    <div class="calendar-date">
 
-                    <strong>
-                        ${escapeHTML(
-                            item.day
-                        )}
-                    </strong>
+                        <strong>
+                            ${escapeHTML(
+                                item.day
+                            )}
+                        </strong>
 
-                    <span>
-                        ${escapeHTML(
-                            item.month
-                        )}
-                    </span>
+                        <span>
+                            ${escapeHTML(
+                                item.month
+                            )}
+                        </span>
 
-                </div>
+                    </div>
 
+                    <div>
 
-                <div>
+                        <strong>
+                            ${escapeHTML(
+                                item.title
+                            )}
+                        </strong>
 
-                    <strong>
-                        ${escapeHTML(
-                            item.title
-                        )}
-                    </strong>
+                        <p>
+                            ${escapeHTML(
+                                item.text
+                            )}
+                        </p>
 
-                    <p>
-                        ${escapeHTML(
-                            item.text
-                        )}
-                    </p>
+                    </div>
 
-                </div>
+                </article>
 
-            </article>
-
-        `).join("");
+            `
+            )
+            .join("");
 
 }
 
@@ -1379,9 +1661,11 @@ function renderHome() {
         if (schedule) {
 
             lessons =
-                Object.values(schedule)
-                    .filter(Boolean)
-                    .length;
+                Object.values(
+                    schedule
+                )
+                .filter(Boolean)
+                .length;
 
         }
 
@@ -1393,7 +1677,9 @@ function renderHome() {
 
 
     const todayString =
-        formatDate(today);
+        formatDate(
+            today
+        );
 
 
     subsElement.textContent =
@@ -1408,7 +1694,6 @@ function renderHome() {
 
 
     renderHomeNews();
-
     renderHomeDaily();
 
 }
@@ -1443,8 +1728,10 @@ function renderHomeNews() {
 
 
     container.innerHTML =
-        data.news.slice(0, 3)
-            .map(item => `
+        data.news
+            .slice(0, 3)
+            .map(
+                item => `
 
                 <div class="news-card">
 
@@ -1468,7 +1755,8 @@ function renderHomeNews() {
 
                 </div>
 
-            `)
+            `
+            )
             .join("");
 
 }
@@ -1536,6 +1824,12 @@ function renderHomeDaily() {
     }
 
 
+    const date =
+        formatDate(
+            today
+        );
+
+
     let html = "";
 
 
@@ -1550,7 +1844,19 @@ function renderHomeDaily() {
         }
 
 
+        const substitution =
+            getSubstitution(
+                date,
+                selectedClass,
+                period
+            );
+
+
         if (Array.isArray(lesson)) {
+
+            const group =
+                lesson[0];
+
 
             html += `
                 <div class="substitution">
@@ -1561,14 +1867,22 @@ function renderHomeDaily() {
 
                     <span>
                         ${escapeHTML(
-                            lesson[0].subject
+                            group.subject
                         )}
                     </span>
 
                     <span>
-                        ${escapeHTML(
-                            lesson[0].teacher
-                        )}
+                        ${
+                            substitution
+                            ? `(${escapeHTML(
+                                substitution.teacher
+                            )}) → ${escapeHTML(
+                                substitution.change
+                            )}`
+                            : escapeHTML(
+                                group.teacher
+                            )
+                        }
                     </span>
 
                 </div>
@@ -1590,9 +1904,17 @@ function renderHomeDaily() {
                     </span>
 
                     <span>
-                        ${escapeHTML(
-                            lesson.teacher
-                        )}
+                        ${
+                            substitution
+                            ? `(${escapeHTML(
+                                substitution.teacher
+                            )}) → ${escapeHTML(
+                                substitution.change
+                            )}`
+                            : escapeHTML(
+                                lesson.teacher
+                            )
+                        }
                     </span>
 
                 </div>
@@ -1645,11 +1967,28 @@ function renderEverything() {
 
 function escapeHTML(value) {
 
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
 }
