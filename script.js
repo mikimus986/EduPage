@@ -30,28 +30,21 @@ const pageTitles = {
 
 let selectedClass = "9. A";
 let selectedView = "classic";
-
 let dailyDate = new Date();
 
 
-/*
-==================================================
-START
-==================================================
-*/
+/* ==================================================
+   START
+================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
 
     setToday();
 
     setupNavigation();
-
     setupSchedule();
-
     setupAdministration();
-
     setupSubstitutionFilter();
-
     setupMobileMenu();
 
     renderEverything();
@@ -59,11 +52,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-/*
-==================================================
-LOCAL STORAGE
-==================================================
-*/
+/* ==================================================
+   LOCAL STORAGE
+================================================== */
 
 function loadData() {
 
@@ -77,7 +68,7 @@ function loadData() {
 
     } catch (error) {
 
-        console.error(error);
+        console.error("Chyba při načítání dat:", error);
 
     }
 
@@ -95,11 +86,9 @@ function saveData() {
 }
 
 
-/*
-==================================================
-DATUM
-==================================================
-*/
+/* ==================================================
+   DATUM
+================================================== */
 
 function formatDate(date) {
 
@@ -121,7 +110,12 @@ function setToday() {
 
     const today = new Date();
 
-    document.getElementById("todayText").textContent =
+    const element =
+        document.getElementById("todayText");
+
+    if (!element) return;
+
+    element.textContent =
         today.toLocaleDateString(
             "cs-CZ",
             {
@@ -135,114 +129,129 @@ function setToday() {
 }
 
 
-/*
-==================================================
-NAVIGACE
-==================================================
-*/
+/* ==================================================
+   NAVIGACE
+================================================== */
 
 function setupNavigation() {
 
-    document.querySelectorAll(".nav-btn").forEach(button => {
+    document.querySelectorAll(".nav-btn")
+        .forEach(button => {
 
-        button.addEventListener("click", () => {
+            button.addEventListener("click", () => {
 
-            showPage(button.dataset.page);
+                showPage(button.dataset.page);
 
-        });
-
-    });
-
-
-    document.querySelectorAll("[data-go]").forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            showPage(button.dataset.go);
+            });
 
         });
 
-    });
+
+    document.querySelectorAll("[data-go]")
+        .forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                showPage(button.dataset.go);
+
+            });
+
+        });
 
 }
 
 
 function showPage(page) {
 
-    document.querySelectorAll(".page").forEach(section => {
+    document.querySelectorAll(".page")
+        .forEach(section => {
 
-        section.classList.toggle(
-            "active",
-            section.id === page
-        );
+            section.classList.toggle(
+                "active",
+                section.id === page
+            );
 
-    });
-
-
-    document.querySelectorAll(".nav-btn").forEach(button => {
-
-        button.classList.toggle(
-            "active",
-            button.dataset.page === page
-        );
-
-    });
+        });
 
 
-    document.getElementById(
-        "pageTitle"
-    ).textContent = pageTitles[page];
+    document.querySelectorAll(".nav-btn")
+        .forEach(button => {
+
+            button.classList.toggle(
+                "active",
+                button.dataset.page === page
+            );
+
+        });
 
 
-    document
-        .getElementById("sidebar")
-        .classList.remove("open");
+    const title =
+        document.getElementById("pageTitle");
+
+    if (title && pageTitles[page]) {
+        title.textContent = pageTitles[page];
+    }
+
+
+    const sidebar =
+        document.getElementById("sidebar");
+
+    if (sidebar) {
+        sidebar.classList.remove("open");
+    }
 
 
     if (page === "schedule") {
+
         renderSchedule();
         renderDaily();
+
     }
 
 
     if (page === "substitutions") {
+
         renderSubstitutions();
+
     }
 
 
     if (page === "news") {
+
         renderNews();
+
     }
 
 }
 
 
-/*
-==================================================
-MOBILE MENU
-==================================================
-*/
+/* ==================================================
+   MOBILNÍ MENU
+================================================== */
 
 function setupMobileMenu() {
 
-    document
-        .getElementById("mobileMenu")
-        .addEventListener("click", () => {
+    const button =
+        document.getElementById("mobileMenu");
 
-            document
-                .getElementById("sidebar")
-                .classList.toggle("open");
+    if (!button) return;
 
-        });
+
+    button.addEventListener("click", () => {
+
+        const sidebar =
+            document.getElementById("sidebar");
+
+        sidebar.classList.toggle("open");
+
+    });
 
 }
 
 
-/*
-==================================================
-ROZVRH - NASTAVENÍ
-==================================================
-*/
+/* ==================================================
+   ROZVRH
+================================================== */
 
 function setupSchedule() {
 
@@ -250,70 +259,116 @@ function setupSchedule() {
         document.getElementById("classSelect");
 
 
-    select.addEventListener(
-        "change",
-        () => {
+    if (select) {
 
-            selectedClass = select.value;
+        select.addEventListener(
+            "change",
+            () => {
 
-            renderSchedule();
-            renderDaily();
+                selectedClass =
+                    select.value;
 
-        }
-    );
+                renderSchedule();
+                renderDaily();
+                renderHome();
 
+            }
+        );
 
-    document.querySelectorAll(".view-btn").forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            selectedView = button.dataset.view;
-
-            document
-                .querySelectorAll(".view-btn")
-                .forEach(btn => btn.classList.remove("active"));
-
-            button.classList.add("active");
-
-            updateView();
-
-        });
-
-    });
+    }
 
 
-    document
-        .getElementById("previousDay")
-        .addEventListener("click", () => {
+    document.querySelectorAll(".view-btn")
+        .forEach(button => {
 
-            dailyDate.setDate(
-                dailyDate.getDate() - 1
+            button.addEventListener(
+                "click",
+                () => {
+
+                    selectedView =
+                        button.dataset.view;
+
+
+                    document
+                        .querySelectorAll(".view-btn")
+                        .forEach(btn =>
+                            btn.classList.remove(
+                                "active"
+                            )
+                        );
+
+
+                    button.classList.add("active");
+
+                    updateView();
+
+                }
             );
 
-            renderDaily();
-
         });
 
 
-    document
-        .getElementById("nextDay")
-        .addEventListener("click", () => {
+    const previous =
+        document.getElementById(
+            "previousDay"
+        );
 
-            dailyDate.setDate(
-                dailyDate.getDate() + 1
-            );
+    if (previous) {
 
-            renderDaily();
+        previous.addEventListener(
+            "click",
+            () => {
 
-        });
+                dailyDate.setDate(
+                    dailyDate.getDate() - 1
+                );
+
+                renderDaily();
+
+            }
+        );
+
+    }
+
+
+    const next =
+        document.getElementById(
+            "nextDay"
+        );
+
+    if (next) {
+
+        next.addEventListener(
+            "click",
+            () => {
+
+                dailyDate.setDate(
+                    dailyDate.getDate() + 1
+                );
+
+                renderDaily();
+
+            }
+        );
+
+    }
 
 }
 
 
+/* ==================================================
+   VÝBĚR TŘÍDY
+================================================== */
+
 function updateClassSelect() {
 
     const select =
-        document.getElementById("classSelect");
+        document.getElementById(
+            "classSelect"
+        );
+
+    if (!select) return;
+
 
     select.innerHTML = "";
 
@@ -324,7 +379,6 @@ function updateClassSelect() {
             document.createElement("option");
 
         option.value = className;
-
         option.textContent = className;
 
         select.appendChild(option);
@@ -336,33 +390,54 @@ function updateClassSelect() {
 
         select.value = selectedClass;
 
-    } else {
+    } else if (data.classes.length > 0) {
 
-        selectedClass = data.classes[0];
+        selectedClass =
+            data.classes[0];
 
-        select.value = selectedClass;
+        select.value =
+            selectedClass;
 
     }
 
 }
 
 
+/* ==================================================
+   PŘEPÍNÁNÍ KLASICKÝ / DENNÍ
+================================================== */
+
 function updateView() {
 
-    document
-        .getElementById("classicView")
-        .classList.toggle(
+    const classic =
+        document.getElementById(
+            "classicView"
+        );
+
+    const daily =
+        document.getElementById(
+            "dailyView"
+        );
+
+
+    if (classic) {
+
+        classic.classList.toggle(
             "hidden",
             selectedView !== "classic"
         );
 
+    }
 
-    document
-        .getElementById("dailyView")
-        .classList.toggle(
+
+    if (daily) {
+
+        daily.classList.toggle(
             "hidden",
             selectedView !== "daily"
         );
+
+    }
 
 
     if (selectedView === "daily") {
@@ -374,16 +449,19 @@ function updateView() {
 }
 
 
-/*
-==================================================
-KLASICKÝ ROZVRH
-==================================================
-*/
+/* ==================================================
+   KLASICKÝ ROZVRH
+================================================== */
 
 function renderSchedule() {
 
     const table =
-        document.getElementById("classicSchedule");
+        document.getElementById(
+            "classicSchedule"
+        );
+
+    if (!table) return;
+
 
     const schedule =
         data.schedules[selectedClass];
@@ -413,7 +491,6 @@ function renderSchedule() {
 
         html += `
             <tr>
-
                 <td class="day-name">
                     ${day}
                 </td>
@@ -426,9 +503,10 @@ function renderSchedule() {
                 schedule[day]?.[period];
 
 
-            html += renderClassicLesson(
-                lesson
-            );
+            html +=
+                renderClassicLesson(
+                    lesson
+                );
 
         });
 
@@ -455,6 +533,8 @@ function renderClassicLesson(lesson) {
 
     }
 
+
+    /* Dvě skupiny */
 
     if (Array.isArray(lesson)) {
 
@@ -487,6 +567,8 @@ function renderClassicLesson(lesson) {
     }
 
 
+    /* Jedna hodina */
+
     return `
         <td class="lesson-cell">
 
@@ -512,35 +594,34 @@ function renderClassicLesson(lesson) {
 }
 
 
-/*
-==================================================
-DENNÍ ROZVRH
-==================================================
-*/
+/* ==================================================
+   DENNÍ ROZVRH
+================================================== */
 
 function renderDaily() {
 
-    const date =
-        formatDate(dailyDate);
+    const dateText =
+        document.getElementById(
+            "dailyDate"
+        );
+
+    const dayText =
+        document.getElementById(
+            "dailyDay"
+        );
+
+    const container =
+        document.getElementById(
+            "dailySchedule"
+        );
 
 
-    const schedule =
-        data.schedules[selectedClass];
+    if (!dateText || !dayText || !container) {
+        return;
+    }
 
 
-    const dayIndex =
-        dailyDate.getDay();
-
-
-    const day =
-        dayIndex === 0
-            ? "Po"
-            : days[dayIndex - 1] || "Po";
-
-
-    document.getElementById(
-        "dailyDate"
-    ).textContent =
+    dateText.textContent =
         dailyDate.toLocaleDateString(
             "cs-CZ",
             {
@@ -551,16 +632,39 @@ function renderDaily() {
         );
 
 
-    document.getElementById(
-        "dailyDay"
-    ).textContent =
+    const dayIndex =
+        dailyDate.getDay();
+
+
+    if (
+        dayIndex < 1 ||
+        dayIndex > 5
+    ) {
+
+        dayText.textContent =
+            "Víkend";
+
+        container.innerHTML = `
+            <div class="empty">
+                Dnes není školní den.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    const day =
+        days[dayIndex - 1];
+
+
+    dayText.textContent =
         day;
 
 
-    const container =
-        document.getElementById(
-            "dailySchedule"
-        );
+    const schedule =
+        data.schedules[selectedClass];
 
 
     if (!schedule || !schedule[day]) {
@@ -579,7 +683,7 @@ function renderDaily() {
     let html = "";
 
 
-    periods.forEach((period, index) => {
+    periods.forEach(period => {
 
         const lesson =
             schedule[day][period];
@@ -658,16 +762,18 @@ function renderDaily() {
 
     container.innerHTML =
         html ||
-        `<div class="empty">Žádné hodiny.</div>`;
+        `
+            <div class="empty">
+                Žádné hodiny.
+            </div>
+        `;
 
 }
 
 
-/*
-==================================================
-SUPLOVÁNÍ
-==================================================
-*/
+/* ==================================================
+   SUPLOVÁNÍ - FILTR
+================================================== */
 
 function setupSubstitutionFilter() {
 
@@ -675,6 +781,8 @@ function setupSubstitutionFilter() {
         document.getElementById(
             "substitutionDate"
         );
+
+    if (!input) return;
 
 
     input.value =
@@ -689,6 +797,10 @@ function setupSubstitutionFilter() {
 }
 
 
+/* ==================================================
+   SUPLOVÁNÍ - ZOBRAZENÍ
+================================================== */
+
 function renderSubstitutions() {
 
     const input =
@@ -696,22 +808,29 @@ function renderSubstitutions() {
             "substitutionDate"
         );
 
-
-    const date =
-        input.value ||
-        formatDate(new Date());
-
-
     const list =
         document.getElementById(
             "substitutionList"
         );
 
 
+    if (!input || !list) return;
+
+
+    const date =
+        input.value ||
+        formatDate(new Date());
+
+
     const substitutions =
-        data.substitutions.filter(
-            item => item.date === date
-        );
+        data.substitutions
+            .map((item, index) => ({
+                ...item,
+                originalIndex: index
+            }))
+            .filter(
+                item => item.date === date
+            );
 
 
     if (substitutions.length === 0) {
@@ -762,6 +881,13 @@ function renderSubstitutions() {
                     )}
                 </span>
 
+                <button
+                    class="delete-btn"
+                    onclick="deleteSubstitution(${item.originalIndex})"
+                >
+                    🗑 Smazat
+                </button>
+
             </div>
 
         `).join("");
@@ -769,13 +895,57 @@ function renderSubstitutions() {
 }
 
 
-/*
-==================================================
- ADMINISTRACE
-==================================================
-*/
+/* ==================================================
+   SMAZÁNÍ SUPLOVÁNÍ
+================================================== */
+
+function deleteSubstitution(index) {
+
+    if (
+        index < 0 ||
+        index >= data.substitutions.length
+    ) {
+        return;
+    }
+
+
+    const item =
+        data.substitutions[index];
+
+
+    const confirmed =
+        confirm(
+            `Opravdu chceš smazat suplování pro ${item.className}, ${item.lesson}. hodinu?`
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    data.substitutions.splice(
+        index,
+        1
+    );
+
+
+    saveData();
+
+    renderEverything();
+
+}
+
+
+/* ==================================================
+   ADMINISTRACE
+================================================== */
 
 function setupAdministration() {
+
+    /* ----------------------------------------------
+       NOVÁ ZPRÁVA
+    ---------------------------------------------- */
 
     const newsForm =
         document.getElementById(
@@ -783,58 +953,76 @@ function setupAdministration() {
         );
 
 
-    newsForm.addEventListener(
-        "submit",
-        event => {
+    if (newsForm) {
 
-            event.preventDefault();
+        newsForm.addEventListener(
+            "submit",
+            event => {
 
-
-            const title =
-                document.getElementById(
-                    "newsTitle"
-                ).value.trim();
+                event.preventDefault();
 
 
-            const text =
-                document.getElementById(
-                    "newsText"
-                ).value.trim();
+                const title =
+                    document.getElementById(
+                        "newsTitle"
+                    ).value.trim();
 
 
-            if (!title || !text) {
-                return;
+                const text =
+                    document.getElementById(
+                        "newsText"
+                    ).value.trim();
+
+
+                if (
+                    !title ||
+                    !text
+                ) {
+
+                    alert(
+                        "Vyplň nadpis i text zprávy."
+                    );
+
+                    return;
+
+                }
+
+
+                data.news.unshift({
+
+                    title: title,
+
+                    text: text,
+
+                    date:
+                        new Date()
+                            .toLocaleDateString(
+                                "cs-CZ"
+                            )
+
+                });
+
+
+                saveData();
+
+
+                newsForm.reset();
+
+
+                renderEverything();
+
+
+                showPage("news");
+
             }
+        );
+
+    }
 
 
-            data.news.unshift({
-
-                title: title,
-
-                text: text,
-
-                date:
-                    new Date().toLocaleDateString(
-                        "cs-CZ"
-                    )
-
-            });
-
-
-            saveData();
-
-
-            newsForm.reset();
-
-
-            renderEverything();
-
-
-            showPage("news");
-
-        }
-    );
-
+    /* ----------------------------------------------
+       NOVÉ SUPLOVÁNÍ
+    ---------------------------------------------- */
 
     const substitutionForm =
         document.getElementById(
@@ -842,91 +1030,108 @@ function setupAdministration() {
         );
 
 
-    substitutionForm.addEventListener(
-        "submit",
-        event => {
+    if (substitutionForm) {
 
-            event.preventDefault();
+        substitutionForm.addEventListener(
+            "submit",
+            event => {
+
+                event.preventDefault();
 
 
-            const item = {
+                const item = {
 
-                date:
+                    date:
+                        document.getElementById(
+                            "subDate"
+                        ).value,
+
+                    className:
+                        document.getElementById(
+                            "subClass"
+                        ).value.trim(),
+
+                    lesson:
+                        document.getElementById(
+                            "subLesson"
+                        ).value,
+
+                    subject:
+                        document.getElementById(
+                            "subSubject"
+                        ).value.trim(),
+
+                    teacher:
+                        document.getElementById(
+                            "subTeacher"
+                        ).value.trim(),
+
+                    change:
+                        document.getElementById(
+                            "subChange"
+                        ).value.trim()
+
+                };
+
+
+                if (
+                    !item.date ||
+                    !item.className ||
+                    !item.subject ||
+                    !item.teacher ||
+                    !item.change
+                ) {
+
+                    alert(
+                        "Vyplň všechna pole suplování."
+                    );
+
+                    return;
+
+                }
+
+
+                data.substitutions.push(
+                    item
+                );
+
+
+                saveData();
+
+
+                substitutionForm.reset();
+
+
+                const filter =
                     document.getElementById(
-                        "subDate"
-                    ).value,
-
-                className:
-                    document.getElementById(
-                        "subClass"
-                    ).value.trim(),
-
-                lesson:
-                    document.getElementById(
-                        "subLesson"
-                    ).value,
-
-                subject:
-                    document.getElementById(
-                        "subSubject"
-                    ).value.trim(),
-
-                teacher:
-                    document.getElementById(
-                        "subTeacher"
-                    ).value.trim(),
-
-                change:
-                    document.getElementById(
-                        "subChange"
-                    ).value.trim()
-
-            };
+                        "substitutionDate"
+                    );
 
 
-            if (
-                !item.date ||
-                !item.className ||
-                !item.subject ||
-                !item.teacher ||
-                !item.change
-            ) {
+                if (filter) {
+                    filter.value =
+                        item.date;
+                }
 
-                return;
+
+                renderEverything();
+
+
+                showPage(
+                    "substitutions"
+                );
 
             }
+        );
 
-
-            data.substitutions.push(item);
-
-
-            saveData();
-
-
-            substitutionForm.reset();
-
-
-            document.getElementById(
-                "substitutionDate"
-            ).value = item.date;
-
-
-            renderEverything();
-
-
-            showPage("substitutions");
-
-        }
-    );
+    }
 
 }
 
 
-/*
-==================================================
- ZPRÁVY
-==================================================
-*/
+/* ==================================================
+   ZPRÁVY
+================================================== */
 
 function renderNews() {
 
@@ -934,6 +1139,9 @@ function renderNews() {
         document.getElementById(
             "newsList"
         );
+
+
+    if (!container) return;
 
 
     if (!data.news.length) {
@@ -950,27 +1158,44 @@ function renderNews() {
 
 
     container.innerHTML =
-        data.news.map(item => `
+        data.news.map((item, index) => `
 
             <article class="news-card">
 
-                <h3>
-                    ${escapeHTML(
-                        item.title
-                    )}
-                </h3>
+                <div class="news-card-header">
+
+                    <div>
+
+                        <h3>
+                            ${escapeHTML(
+                                item.title
+                            )}
+                        </h3>
+
+                        <time>
+                            ${escapeHTML(
+                                item.date
+                            )}
+                        </time>
+
+                    </div>
+
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteNews(${index})"
+                    >
+                        🗑 Smazat
+                    </button>
+
+                </div>
+
 
                 <p>
                     ${escapeHTML(
                         item.text
                     )}
                 </p>
-
-                <time>
-                    ${escapeHTML(
-                        item.date
-                    )}
-                </time>
 
             </article>
 
@@ -979,11 +1204,51 @@ function renderNews() {
 }
 
 
-/*
-==================================================
- KALENDÁŘ
-==================================================
-*/
+/* ==================================================
+   SMAZÁNÍ ZPRÁVY
+================================================== */
+
+function deleteNews(index) {
+
+    if (
+        index < 0 ||
+        index >= data.news.length
+    ) {
+        return;
+    }
+
+
+    const news =
+        data.news[index];
+
+
+    const confirmed =
+        confirm(
+            `Opravdu chceš smazat zprávu „${news.title}“?`
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    data.news.splice(
+        index,
+        1
+    );
+
+
+    saveData();
+
+    renderEverything();
+
+}
+
+
+/* ==================================================
+   KALENDÁŘ
+================================================== */
 
 function renderCalendar() {
 
@@ -991,6 +1256,22 @@ function renderCalendar() {
         document.getElementById(
             "calendarList"
         );
+
+
+    if (!container) return;
+
+
+    if (!data.calendar.length) {
+
+        container.innerHTML = `
+            <div class="empty">
+                Zatím nejsou žádné události.
+            </div>
+        `;
+
+        return;
+
+    }
 
 
     container.innerHTML =
@@ -1013,6 +1294,7 @@ function renderCalendar() {
                     </span>
 
                 </div>
+
 
                 <div>
 
@@ -1037,13 +1319,36 @@ function renderCalendar() {
 }
 
 
-/*
-==================================================
- DOMŮ
-==================================================
-*/
+/* ==================================================
+   DOMŮ
+================================================== */
 
 function renderHome() {
+
+    const lessonsElement =
+        document.getElementById(
+            "homeLessons"
+        );
+
+    const subsElement =
+        document.getElementById(
+            "homeSubs"
+        );
+
+    const newsElement =
+        document.getElementById(
+            "homeNews"
+        );
+
+
+    if (
+        !lessonsElement ||
+        !subsElement ||
+        !newsElement
+    ) {
+        return;
+    }
+
 
     let lessons = 0;
 
@@ -1066,7 +1371,9 @@ function renderHome() {
 
 
         const schedule =
-            data.schedules[selectedClass]?.[day];
+            data.schedules[
+                selectedClass
+            ]?.[day];
 
 
         if (schedule) {
@@ -1081,61 +1388,95 @@ function renderHome() {
     }
 
 
-    document.getElementById(
-        "homeLessons"
-    ).textContent = lessons;
+    lessonsElement.textContent =
+        lessons;
 
 
     const todayString =
         formatDate(today);
 
 
-    document.getElementById(
-        "homeSubs"
-    ).textContent =
+    subsElement.textContent =
         data.substitutions.filter(
-            item => item.date === todayString
+            item =>
+                item.date === todayString
         ).length;
 
 
-    document.getElementById(
-        "homeNews"
-    ).textContent =
+    newsElement.textContent =
         data.news.length;
 
 
-    const newsContainer =
-        document.getElementById(
-            "homeNewsList"
-        );
-
-
-    newsContainer.innerHTML =
-        data.news.slice(0, 3).map(item => `
-
-            <div class="news-card">
-
-                <h3>
-                    ${escapeHTML(
-                        item.title
-                    )}
-                </h3>
-
-                <p>
-                    ${escapeHTML(
-                        item.text
-                    )}
-                </p>
-
-            </div>
-
-        `).join("");
-
+    renderHomeNews();
 
     renderHomeDaily();
 
 }
 
+
+/* ==================================================
+   DOMŮ - ZPRÁVY
+================================================== */
+
+function renderHomeNews() {
+
+    const container =
+        document.getElementById(
+            "homeNewsList"
+        );
+
+
+    if (!container) return;
+
+
+    if (!data.news.length) {
+
+        container.innerHTML = `
+            <div class="empty">
+                Zatím nejsou žádné zprávy.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        data.news.slice(0, 3)
+            .map(item => `
+
+                <div class="news-card">
+
+                    <h3>
+                        ${escapeHTML(
+                            item.title
+                        )}
+                    </h3>
+
+                    <p>
+                        ${escapeHTML(
+                            item.text
+                        )}
+                    </p>
+
+                    <time>
+                        ${escapeHTML(
+                            item.date
+                        )}
+                    </time>
+
+                </div>
+
+            `)
+            .join("");
+
+}
+
+
+/* ==================================================
+   DOMŮ - DNEŠNÍ ROZVRH
+================================================== */
 
 function renderHomeDaily() {
 
@@ -1143,6 +1484,9 @@ function renderHomeDaily() {
         document.getElementById(
             "homeDailySchedule"
         );
+
+
+    if (!container) return;
 
 
     const today =
@@ -1158,8 +1502,11 @@ function renderHomeDaily() {
         dayIndex > 5
     ) {
 
-        container.innerHTML =
-            `<div class="empty">Dnes není školní den.</div>`;
+        container.innerHTML = `
+            <div class="empty">
+                Dnes není školní den.
+            </div>
+        `;
 
         return;
 
@@ -1171,13 +1518,18 @@ function renderHomeDaily() {
 
 
     const schedule =
-        data.schedules[selectedClass]?.[day];
+        data.schedules[
+            selectedClass
+        ]?.[day];
 
 
     if (!schedule) {
 
-        container.innerHTML =
-            `<div class="empty">Rozvrh není k dispozici.</div>`;
+        container.innerHTML = `
+            <div class="empty">
+                Rozvrh není k dispozici.
+            </div>
+        `;
 
         return;
 
@@ -1253,16 +1605,18 @@ function renderHomeDaily() {
 
     container.innerHTML =
         html ||
-        `<div class="empty">Žádné hodiny.</div>`;
+        `
+            <div class="empty">
+                Žádné hodiny.
+            </div>
+        `;
 
 }
 
 
-/*
-==================================================
- VŠE
-==================================================
-*/
+/* ==================================================
+   VŠE
+================================================== */
 
 function renderEverything() {
 
@@ -1285,11 +1639,9 @@ function renderEverything() {
 }
 
 
-/*
-==================================================
- BEZPEČNÉ VYPSÁNÍ TEXTU
-==================================================
-*/
+/* ==================================================
+   OCHRANA TEXTU
+================================================== */
 
 function escapeHTML(value) {
 
