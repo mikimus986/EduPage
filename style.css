@@ -744,3 +744,52 @@ form textarea {
         grid-column: 3;
     }
 }
+/* MAZÁNÍ */
+
+.delete-btn {
+    border: 0;
+    background: #fff0f0;
+    color: #d93030;
+    padding: 7px 10px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.delete-btn:hover {
+    background: #ffdede;
+}
+
+.news-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.news-card-header h3 {
+    margin-bottom: 6px;
+}
+
+.news-card-header time {
+    margin-top: 0;
+}
+
+@media (max-width: 700px) {
+
+    .news-card-header {
+        flex-direction: column;
+    }
+
+    .substitution {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .substitution .delete-btn {
+        grid-column: 1 / -1;
+        justify-self: start;
+    }
+
+}
