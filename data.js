@@ -18,8 +18,7 @@ teacher
 const DEFAULT_DATA = {
 
     classes: [
-        "9. A",
-        "9. B"
+        "9. A"
     ],
 
 
@@ -39,35 +38,35 @@ const DEFAULT_DATA = {
                 "1": {
                     subject: "Občanská výchova",
                     shortSubject: "Ov",
-                    teacher: "Musil Roman",
+                    teacher: "Robert Musialek",
                     shortTeacher: "MUSR"
                 },
 
                 "2": {
                     subject: "Matematika",
                     shortSubject: "M",
-                    teacher: "Bauer František",
+                    teacher: "František Bartl",
                     shortTeacher: "BAFR"
                 },
 
                 "3": {
                     subject: "Anglický jazyk",
                     shortSubject: "Aj",
-                    teacher: "Musil Martin",
+                    teacher: "Mikuláš Musialek",
                     shortTeacher: "MUSM"
                 },
 
                 "4": {
                     subject: "Přírodopis",
                     shortSubject: "Př",
-                    teacher: "Baloun",
+                    teacher: "Lucie Balzerová",
                     shortTeacher: "BALU"
                 },
 
                 "5A": {
                     subject: "Dějepis",
                     shortSubject: "D",
-                    teacher: "Musil Roman",
+                    teacher: "Robert Musialek",
                     shortTeacher: "MUSR"
                 },
 
@@ -76,21 +75,21 @@ const DEFAULT_DATA = {
                 "6": {
                     subject: "Fyzika",
                     shortSubject: "F",
-                    teacher: "Lavo",
+                    teacher: "Vojtěch Laichman",
                     shortTeacher: "LAVO"
                 },
 
                 "7": [
                     {
-                        subject: "Přírodopis",
+                        subject: "Příprava na přímačky",
                         shortSubject: "PnP",
-                        teacher: "Musil Martin",
+                        teacher: "Mikuláš Musialek",
                         shortTeacher: "MUSM"
                     },
                     {
                         subject: "Přírodopis",
                         shortSubject: "PnP",
-                        teacher: "Bauer František",
+                        teacher: "František Bartl",
                         shortTeacher: "BAFR"
                     }
                 ]
@@ -101,15 +100,15 @@ const DEFAULT_DATA = {
 
                 "1": [
                     {
-                        subject: "Počítače",
+                        subject: "Pracovní činnosti",
                         shortSubject: "Pč",
-                        teacher: "Musil Roman",
+                        teacher: "Robert Musialek",
                         shortTeacher: "MUSR"
                     },
                     {
                         subject: "Matematika",
                         shortSubject: "M",
-                        teacher: "Sion",
+                        teacher: "Ondřej Šídlák",
                         shortTeacher: "SION"
                     }
                 ],
@@ -117,21 +116,21 @@ const DEFAULT_DATA = {
                 "2": {
                     subject: "Český jazyk",
                     shortSubject: "ČjL",
-                    teacher: "Sion",
+                    teacher: "Ondřej Šídlák",
                     shortTeacher: "SION"
                 },
 
                 "3": {
                     subject: "Hudební výchova",
                     shortSubject: "Hv",
-                    teacher: "Bauer František",
+                    teacher: "František Bartl",
                     shortTeacher: "BAFR"
                 },
 
                 "4": {
                     subject: "Zeměpis",
                     shortSubject: "Z",
-                    teacher: "Musil Roman",
+                    teacher: "Robert Musialek",
                     shortTeacher: "MUSR"
                 },
 
@@ -141,13 +140,13 @@ const DEFAULT_DATA = {
                     {
                         subject: "Tělesná výchova",
                         shortSubject: "Tv",
-                        teacher: "Baloun",
+                        teacher: "Lucie Balzerová",
                         shortTeacher: "BALU"
                     },
                     {
                         subject: "Tělesná výchova",
                         shortSubject: "Tv",
-                        teacher: "Nezda",
+                        teacher: "Zdeněk Nečas",
                         shortTeacher: "NEZD"
                     }
                 ],
@@ -156,13 +155,13 @@ const DEFAULT_DATA = {
                     {
                         subject: "Tělesná výchova",
                         shortSubject: "Tv",
-                        teacher: "Baloun",
+                        teacher: "Lucie Balzerová",
                         shortTeacher: "BALU"
                     },
                     {
                         subject: "Tělesná výchova",
                         shortSubject: "Tv",
-                        teacher: "Nezda",
+                        teacher: "zdenšk nečas",
                         shortTeacher: "NEZD"
                     }
                 ],
