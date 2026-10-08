@@ -11,6 +11,9 @@ MUSM:"Mikuláš Musialek",MUSR:"Robert Musialek",LAVO:"Vojtěch Laichman",MUIV:"
 BALU:"Lucie Balzerová",SPNI:"Nina Špalková",BAFR:"František Bartl",NEZD:"Zdeněk Nečas",
 NOMA:"Martin Novotný",SION:"Ondřej Šídlák"
 },
+subjects:{
+OV:"Občanská výuka", M:"Matematika"
+},
 messages:[{id:"msg-1",title:"Vítejte ve školním systému",text:"Zde najdete rozvrh, suplování a školní zprávy.",date:"2026-10-08"}],
 substitutions:[]
 };
