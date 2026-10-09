@@ -1,22 +1,434 @@
-const STORAGE_KEY="schoolSystemDataV5",days=["Po","Út","St","Čt","Pá"],lessons=["1","2","3","4","5A","5B","6","7"];let data;
-document.addEventListener("DOMContentLoaded",()=>{loadData();setupNavigation();setupMobileMenu();fillClassSelectors();setupForms();setDefaultDates();renderTimetable();renderDaily();renderSubstitutions();renderMessages()});
-function loadData(){const s=localStorage.getItem(STORAGE_KEY);if(s){try{data={...window.schoolData,...JSON.parse(s)}}catch{data=structuredClone(window.schoolData)}}else data=structuredClone(window.schoolData);data.messages??=[];data.substitutions??=[];data.teachers={...window.schoolData.teachers,...(data.teachers||{})}}
-function saveData(){localStorage.setItem(STORAGE_KEY,JSON.stringify({messages:data.messages,substitutions:data.substitutions,teachers:data.teachers}))}
-function setupNavigation(){document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>openPage(b.dataset.page));document.querySelectorAll("[data-page-link]").forEach(b=>b.onclick=()=>openPage(b.dataset.pageLink))}
-function openPage(id){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById(id)?.classList.add("active");document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));document.getElementById("mainNav").classList.remove("open")}
-function setupMobileMenu(){document.getElementById("mobileMenuBtn").onclick=()=>document.getElementById("mainNav").classList.toggle("open")}
-function getClassIds(){return Object.keys(data.classes).sort((a,b)=>(parseInt(a)||999)-(parseInt(b)||999))}
-function fillClassSelectors(){const ids=getClassIds();[document.getElementById("timetableClass"),document.getElementById("dailyClass"),document.getElementById("subClass"),document.getElementById("substitutionClassFilter")].forEach(s=>{if(!s)return;const old=s.value;s.innerHTML=s.id==="substitutionClassFilter"?'<option value="all">Všechny třídy</option>':"";ids.forEach(id=>{const o=document.createElement("option");o.value=id;o.textContent=data.classes[id].name;s.appendChild(o)});if([...s.options].some(o=>o.value===old))s.value=old});document.getElementById("timetableClass").onchange=renderTimetable;document.getElementById("dailyClass").onchange=renderDaily;document.getElementById("dailyDate").onchange=renderDaily;document.getElementById("substitutionDate").onchange=renderSubstitutions;document.getElementById("substitutionClassFilter").onchange=renderSubstitutions}
-function getLocalDate(){const n=new Date();return`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,"0")}-${String(n.getDate()).padStart(2,"0")}`}
-function setDefaultDates(){const d=getLocalDate();["dailyDate","substitutionDate","subDate","messageDate"].forEach(id=>document.getElementById(id).value=d)}
-function renderTimetable(){const id=document.getElementById("timetableClass").value,t=document.getElementById("timetableTable"),c=data.classes[id];if(!c)return;let h="<thead><tr><th>Den</th>"+lessons.map(x=>`<th>${x}</th>`).join("")+"</tr></thead><tbody>";days.forEach(day=>{h+=`<tr><td class="day-name">${day}</td>`;lessons.forEach(l=>{const a=c.timetable?.[day]?.[l]||[];h+="<td>";if(a.length===1)h+=`<div class="lesson"><div class="lesson-subject">${esc(a[0].subject)}</div><div class="lesson-teacher">${esc(a[0].teacher)}</div></div>`;else a.forEach(x=>h+=`<div class="split-lesson"><div class="lesson-subject">${esc(x.subject)}</div><div class="lesson-teacher">${esc(x.teacher)}</div></div>`);h+="</td>"});h+="</tr>"});t.innerHTML=h+"</tbody>"}
-function getDay(s){return({1:"Po",2:"Út",3:"St",4:"Čt",5:"Pá"})[new Date(s+"T12:00:00").getDay()]||"Po"}
-function formatDate(d){const [y,m,x]=d.split("-");return`${x}.${m}.${y}`}
-function teacher(x){return data.teachers[x]||x}
-function findSub(d,c,l,i){const a=data.substitutions.filter(s=>s.date===d&&s.classId===c&&s.lesson===l);return a.find(s=>String(s.groupIndex)===String(i))||a.find(s=>s.groupIndex==null||s.groupIndex==="")||null}
-function renderDaily(){const c=document.getElementById("dailyClass").value,d=document.getElementById("dailyDate").value,cls=data.classes[c],list=document.getElementById("dailyList");if(!cls||!d)return;document.getElementById("dailyInfo").innerHTML=`<div class="substitution-filter"><strong>${esc(cls.name)}</strong><span>${formatDate(d)} — ${getDay(d)}</span></div>`;list.innerHTML="";let any=false;(cls.timetable?.[getDay(d)]||{});lessons.forEach(l=>(cls.timetable?.[getDay(d)]?.[l]||[]).forEach((x,i)=>{any=true;const s=findSub(d,c,l,i);list.insertAdjacentHTML("beforeend",`<div class="daily-card"><div class="daily-period">${l}</div><div><div class="daily-subject">${esc(s?.subject||x.subject)}</div><div class="daily-teacher">${esc(s?.teacher||teacher(x.teacher))}</div></div><div>${s?`<span class="substitution-badge">SUPLOVÁNÍ</span><div class="daily-subteacher">Původně: ${esc(x.subject)} / ${esc(teacher(x.teacher))}</div>`:""}</div><div class="daily-room">${esc(s?.room||"")}</div></div>`)}));if(!any)list.innerHTML='<div class="empty">Pro tento den není v rozvrhu žádná hodina.</div>'}
-function renderSubstitutions(){const list=document.getElementById("substitutionList"),d=document.getElementById("substitutionDate").value,f=document.getElementById("substitutionClassFilter").value;let a=data.substitutions.filter(s=>s.date===d);if(f!=="all")a=a.filter(s=>s.classId===f);a.sort((x,y)=>((+x.classId||999)-(+y.classId||999))||(lessons.indexOf(x.lesson)-lessons.indexOf(y.lesson)));if(!a.length){list.innerHTML=`<div class="empty">Pro ${formatDate(d)} není zadáno žádné suplování.</div>`;return}const g={};a.forEach(s=>(g[s.classId]??=[]).push(s));list.innerHTML="";Object.keys(g).sort((x,y)=>(+x||999)-(+y||999)).forEach(cid=>{const sec=document.createElement("div");sec.className="class-substitution";sec.innerHTML=`<div class="class-substitution-header"><span>Třída ${esc(data.classes[cid]?.name||cid)}</span><span>${g[cid].length} změn</span></div><div class="class-substitution-body"></div>`;const body=sec.querySelector(".class-substitution-body");g[cid].forEach(s=>{const card=document.createElement("div");card.className="substitution-card";card.innerHTML=`<div class="sub-period">${esc(s.lesson)}</div><div class="sub-main"><strong>${esc(s.subject||s.originalSubject||"—")} → ${esc(s.teacher||"—")}</strong><small>Původně: ${esc(s.originalSubject||"—")} / ${esc(s.originalTeacher||"—")}</small>${s.room?`<small>Učebna: ${esc(s.room)}</small>`:""}${s.note?`<div class="sub-change">${esc(s.note)}</div>`:""}</div><button class="delete-btn" data-del="${esc(s.id)}">Smazat</button>`;body.appendChild(card)});list.appendChild(sec)});document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>deleteSub(b.dataset.del))}
-function deleteSub(id){if(!confirm("Opravdu chcete toto suplování smazat?"))return;data.substitutions=data.substitutions.filter(s=>s.id!==id);saveData();renderSubstitutions();renderDaily()}
-function setupForms(){document.getElementById("substitutionForm").onsubmit=e=>{e.preventDefault();const oldSub=document.getElementById("subOriginalSubject").value.trim();data.substitutions.push({id:"sub-"+Date.now(),date:document.getElementById("subDate").value,classId:document.getElementById("subClass").value,lesson:document.getElementById("subLesson").value,originalSubject:oldSub,subject:document.getElementById("subSubject").value.trim()||oldSub,originalTeacher:document.getElementById("subOriginalTeacher").value.trim(),teacher:document.getElementById("subTeacher").value.trim(),room:document.getElementById("subRoom").value.trim(),note:document.getElementById("subNote").value.trim()});saveData();e.target.reset();document.getElementById("subDate").value=getLocalDate();renderSubstitutions();renderDaily();alert("Suplování bylo přidáno.")};document.getElementById("messageForm").onsubmit=e=>{e.preventDefault();data.messages.unshift({id:"msg-"+Date.now(),title:document.getElementById("messageTitle").value.trim(),text:document.getElementById("messageText").value.trim(),date:document.getElementById("messageDate").value});saveData();e.target.reset();document.getElementById("messageDate").value=getLocalDate();renderMessages();alert("Zpráva byla přidána.")}}
-function renderMessages(){const l=document.getElementById("messagesList");const a=[...data.messages].sort((x,y)=>y.date.localeCompare(x.date));if(!a.length){l.innerHTML='<div class="empty">Žádné zprávy.</div>';return}l.innerHTML=a.map(m=>`<div class="message-card"><div class="message-top"><div class="message-title">${esc(m.title)}</div><div class="message-date">${formatDate(m.date)}</div></div><div class="message-text">${esc(m.text)}</div><br><button class="delete-btn" data-msg="${esc(m.id)}">Smazat zprávu</button></div>`).join("");document.querySelectorAll("[data-msg]").forEach(b=>b.onclick=()=>{if(confirm("Opravdu chcete tuto zprávu smazat?")){data.messages=data.messages.filter(m=>m.id!==b.dataset.msg);saveData();renderMessages()}})}
-function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+
+const DAYS = ["Po", "Út", "St", "Čt", "Pá"];
+const LESSONS = ["1", "2", "3", "4", "5A", "5B", "6", "7"];
+const STORAGE_KEY = "skolniSystemDataV6";
+
+let state;
+
+const $ = id => document.getElementById(id);
+
+function cloneData(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[ch]);
+}
+
+function todayString() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+
+function formatDate(date) {
+  if (!date) return "";
+  const [y,m,d] = date.split("-");
+  return `${d}.${m}.${y}`;
+}
+
+function weekday(date) {
+  const n = new Date(date + "T12:00:00").getDay();
+  return ({1:"Po",2:"Út",3:"St",4:"Čt",5:"Pá"})[n] || null;
+}
+
+function fullSubject(subject) {
+  return state.subjectNames[subject] || subject || "—";
+}
+
+function teacherName(teacher) {
+  return state.teachers[teacher] || teacher || "—";
+}
+
+function loadState() {
+  const base = cloneData(window.schoolData);
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+    if (saved) {
+      base.substitutions = saved.substitutions || [];
+      base.messages = saved.messages || [];
+    }
+  } catch (error) {
+    console.warn("Uložená data se nepodařilo načíst.", error);
+  }
+  return base;
+}
+
+function saveState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    substitutions: state.substitutions,
+    messages: state.messages
+  }));
+}
+
+function init() {
+  state = loadState();
+
+  $("dailyDate").value = todayString();
+  $("substitutionDate").value = todayString();
+  $("subDate").value = todayString();
+  $("messageDate").value = todayString();
+
+  fillClassSelectors();
+  setupNavigation();
+  setupForms();
+
+  $("timetableClass").addEventListener("change", renderTimetable);
+  $("dailyClass").addEventListener("change", renderDaily);
+  $("dailyDate").addEventListener("change", renderDaily);
+  $("substitutionDate").addEventListener("change", renderSubstitutions);
+  $("substitutionClassFilter").addEventListener("change", renderSubstitutions);
+
+  $("menuToggle").addEventListener("click", () => {
+    $("navigation").classList.toggle("open");
+  });
+
+  renderTimetable();
+  renderDaily();
+  renderSubstitutions();
+  renderMessages();
+}
+
+function setupNavigation() {
+  document.querySelectorAll("[data-page]").forEach(button => {
+    button.addEventListener("click", () => openPage(button.dataset.page));
+  });
+
+  document.querySelectorAll("[data-go]").forEach(button => {
+    button.addEventListener("click", () => openPage(button.dataset.go));
+  });
+}
+
+function openPage(id) {
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.toggle("active", page.id === id);
+  });
+
+  document.querySelectorAll("[data-page]").forEach(button => {
+    button.classList.toggle("active", button.dataset.page === id);
+  });
+
+  $("navigation").classList.remove("open");
+}
+
+function fillClassSelectors() {
+  const classes = Object.keys(state.classes).sort(
+    (a,b) => Number(a) - Number(b)
+  );
+
+  const ids = ["timetableClass", "dailyClass", "subClass"];
+  ids.forEach(id => {
+    $(id).innerHTML = "";
+    classes.forEach(classId => {
+      const option = document.createElement("option");
+      option.value = classId;
+      option.textContent = state.classes[classId].name;
+      $(id).appendChild(option);
+    });
+  });
+
+  $("substitutionClassFilter").innerHTML =
+    '<option value="all">Všechny třídy</option>';
+
+  classes.forEach(classId => {
+    const option = document.createElement("option");
+    option.value = classId;
+    option.textContent = state.classes[classId].name;
+    $("substitutionClassFilter").appendChild(option);
+  });
+}
+
+function renderTimetable() {
+  const classId = $("timetableClass").value;
+  const cls = state.classes[classId];
+  const table = $("timetableTable");
+
+  if (!cls) return;
+
+  let html = "<thead><tr><th>Den</th>";
+  LESSONS.forEach(lesson => {
+    html += `<th>${lesson}</th>`;
+  });
+  html += "</tr></thead><tbody>";
+
+  DAYS.forEach(day => {
+    html += `<tr><td class="day-name">${day}</td>`;
+
+    LESSONS.forEach(lesson => {
+      const items = cls.timetable?.[day]?.[lesson] || [];
+      html += "<td>";
+
+      items.forEach(item => {
+        html += `
+          <div class="lesson">
+            <div class="lesson-subject">${escapeHTML(item.subject)}</div>
+            <div class="lesson-teacher">${escapeHTML(item.teacher)}</div>
+          </div>`;
+      });
+
+      html += "</td>";
+    });
+
+    html += "</tr>";
+  });
+
+  table.innerHTML = html + "</tbody>";
+
+  const hasLessons = DAYS.some(day =>
+    LESSONS.some(lesson =>
+      (cls.timetable?.[day]?.[lesson] || []).length > 0
+    )
+  );
+
+  $("timetableStatus").textContent = hasLessons
+    ? "Rozvrh třídy " + cls.name
+    : "Rozvrh této třídy zatím není doplněný. Nahraj PDF dané třídy a doplníme jej.";
+}
+
+function findSubstitution(date, classId, lesson, groupIndex) {
+  return state.substitutions.find(sub =>
+    sub.date === date &&
+    sub.classId === classId &&
+    sub.lesson === lesson &&
+    (sub.groupIndex == null || sub.groupIndex === groupIndex)
+  );
+}
+
+function renderDaily() {
+  const classId = $("dailyClass").value;
+  const date = $("dailyDate").value;
+  const cls = state.classes[classId];
+  const list = $("dailyList");
+
+  if (!cls || !date) return;
+
+  const day = weekday(date);
+  $("dailyHeading").innerHTML = `
+    <div class="panel">
+      <strong>Třída ${escapeHTML(cls.name)}</strong>
+      <span> · ${formatDate(date)}${day ? " · " + day : ""}</span>
+    </div>`;
+
+  list.innerHTML = "";
+
+  if (!day) {
+    list.innerHTML = '<div class="empty">O víkendu není v tomto rozvrhu vyučování.</div>';
+    return;
+  }
+
+  const dayData = cls.timetable?.[day] || {};
+  let count = 0;
+
+  LESSONS.forEach(lesson => {
+    const items = dayData[lesson] || [];
+    if (!items.length) return;
+
+    count++;
+    let rows = "";
+
+    items.forEach((item, index) => {
+      const sub = findSubstitution(date, classId, lesson, index);
+      const subject = sub?.subject || item.subject;
+      const originalTeacher = sub?.originalTeacher || teacherName(item.teacher);
+
+      rows += `
+        <div class="daily-lesson-row">
+          <div class="daily-lesson-main">
+            <div class="daily-subject">${escapeHTML(fullSubject(subject))}</div>
+            ${
+              sub
+                ? `<div class="daily-substitution-line">
+                     Suplování:
+                     <span class="original-crossed">${escapeHTML(originalTeacher)}</span>
+                     <span class="sub-arrow">→</span>
+                     <span>${escapeHTML(sub.teacher || teacherName(item.teacher))}</span>
+                   </div>
+                   ${sub.originalSubject ? `<div class="daily-note">Původní předmět: ${escapeHTML(fullSubject(sub.originalSubject))}</div>` : ""}
+                   ${sub.note ? `<div class="daily-note">${escapeHTML(sub.note)}</div>` : ""}`
+                : `<div class="daily-teacher">${escapeHTML(teacherName(item.teacher))}</div>`
+            }
+          </div>
+          ${sub?.room ? `<div class="daily-note">Učebna: ${escapeHTML(sub.room)}</div>` : ""}
+        </div>`;
+    });
+
+    list.insertAdjacentHTML("beforeend", `
+      <article class="daily-card">
+        <div class="daily-period">${lesson}</div>
+        <div class="daily-lesson-stack">${rows}</div>
+      </article>`);
+  });
+
+  if (!count) {
+    list.innerHTML = '<div class="empty">Pro tento den nejsou v rozvrhu žádné hodiny.</div>';
+  }
+}
+
+function renderSubstitutions() {
+  const date = $("substitutionDate").value;
+  const filter = $("substitutionClassFilter").value;
+  const list = $("substitutionList");
+
+  let subs = state.substitutions.filter(sub => sub.date === date);
+
+  if (filter !== "all") {
+    subs = subs.filter(sub => sub.classId === filter);
+  }
+
+  subs.sort((a,b) =>
+    Number(a.classId) - Number(b.classId) ||
+    LESSONS.indexOf(a.lesson) - LESSONS.indexOf(b.lesson)
+  );
+
+  if (!subs.length) {
+    list.innerHTML = `<div class="empty">Pro ${formatDate(date)} není zadáno žádné suplování.</div>`;
+    return;
+  }
+
+  const groups = {};
+  subs.forEach(sub => {
+    if (!groups[sub.classId]) groups[sub.classId] = [];
+    groups[sub.classId].push(sub);
+  });
+
+  list.innerHTML = "";
+
+  Object.keys(groups).sort((a,b) => Number(a)-Number(b)).forEach(classId => {
+    const section = document.createElement("section");
+    section.className = "class-substitution";
+
+    section.innerHTML = `
+      <div class="class-substitution-header">
+        <span>Třída ${escapeHTML(state.classes[classId]?.name || classId)}</span>
+        <span>${groups[classId].length} změn</span>
+      </div>
+      <div class="class-substitution-body"></div>`;
+
+    const body = section.querySelector(".class-substitution-body");
+
+    groups[classId].forEach(sub => {
+      const card = document.createElement("article");
+      card.className = "substitution-card";
+
+      card.innerHTML = `
+        <div class="sub-period">${escapeHTML(sub.lesson)}</div>
+        <div class="sub-main">
+          <strong>${escapeHTML(fullSubject(sub.subject || sub.originalSubject || "—"))}</strong>
+          <small>
+            ${escapeHTML(sub.originalTeacher || "Původní učitel neuveden")}
+            → ${escapeHTML(sub.teacher || "Učitel neuveden")}
+          </small>
+          ${sub.originalSubject ? `<small>Původní předmět: ${escapeHTML(fullSubject(sub.originalSubject))}</small>` : ""}
+          ${sub.room ? `<small>Učebna: ${escapeHTML(sub.room)}</small>` : ""}
+          ${sub.note ? `<div class="sub-change">${escapeHTML(sub.note)}</div>` : ""}
+        </div>
+        <button class="delete-btn" type="button">Smazat</button>`;
+
+      card.querySelector("button").addEventListener("click", () => {
+        if (!confirm("Opravdu chceš toto suplování smazat?")) return;
+        state.substitutions = state.substitutions.filter(item => item.id !== sub.id);
+        saveState();
+        renderSubstitutions();
+        renderDaily();
+      });
+
+      body.appendChild(card);
+    });
+
+    list.appendChild(section);
+  });
+}
+
+function setupForms() {
+  $("substitutionForm").addEventListener("submit", event => {
+    event.preventDefault();
+
+    const classId = $("subClass").value;
+    const lesson = $("subLesson").value;
+    const date = $("subDate").value;
+    const originalSubject = $("subOriginalSubject").value.trim();
+    const newSubject = $("subSubject").value.trim();
+
+    if (!date || !classId || !lesson) return;
+
+    state.substitutions.push({
+      id: "sub-" + Date.now(),
+      date,
+      classId,
+      lesson,
+      originalSubject,
+      subject: newSubject || originalSubject,
+      originalTeacher: $("subOriginalTeacher").value.trim(),
+      teacher: $("subTeacher").value.trim(),
+      room: $("subRoom").value.trim(),
+      note: $("subNote").value.trim()
+    });
+
+    saveState();
+    event.target.reset();
+    $("subDate").value = todayString();
+
+    renderSubstitutions();
+    renderDaily();
+    alert("Suplování bylo přidáno.");
+  });
+
+  $("messageForm").addEventListener("submit", event => {
+    event.preventDefault();
+
+    state.messages.unshift({
+      id: "msg-" + Date.now(),
+      title: $("messageTitle").value.trim(),
+      text: $("messageText").value.trim(),
+      date: $("messageDate").value
+    });
+
+    saveState();
+    event.target.reset();
+    $("messageDate").value = todayString();
+    renderMessages();
+
+    alert("Zpráva byla přidána.");
+  });
+}
+
+function renderMessages() {
+  const list = $("messagesList");
+  const messages = [...state.messages].sort((a,b) => b.date.localeCompare(a.date));
+
+  if (!messages.length) {
+    list.innerHTML = '<div class="empty">Zatím nejsou žádné zprávy.</div>';
+    return;
+  }
+
+  list.innerHTML = "";
+
+  messages.forEach(message => {
+    const card = document.createElement("article");
+    card.className = "message-card";
+
+    card.innerHTML = `
+      <div class="message-heading">
+        <div class="message-title">${escapeHTML(message.title)}</div>
+        <div class="message-date">${formatDate(message.date)}</div>
+      </div>
+      <div class="message-text">${escapeHTML(message.text)}</div>
+      <button class="delete-btn" type="button">Smazat zprávu</button>`;
+
+    card.querySelector("button").addEventListener("click", () => {
+      if (!confirm("Opravdu chceš tuto zprávu smazat?")) return;
+      state.messages = state.messages.filter(item => item.id !== message.id);
+      saveState();
+      renderMessages();
+    });
+
+    list.appendChild(card);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", init);
