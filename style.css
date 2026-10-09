@@ -1,1 +1,609 @@
-*{box-sizing:border-box}body{margin:0;background:#f3f6f9;color:#1f2933;font-family:Arial,Helvetica,sans-serif}.topbar{height:72px;background:#fff;border-bottom:1px solid #dce3e9;display:flex;align-items:center;justify-content:space-between;padding:0 25px;position:sticky;top:0;z-index:100}.brand{display:flex;align-items:center;gap:12px}.brand-icon{width:42px;height:42px;border-radius:10px;background:#1769aa;color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:bold}.brand strong{display:block}.brand span{display:block;color:#697586;font-size:12px;margin-top:3px}nav{display:flex;gap:4px}nav button{border:0;background:transparent;padding:10px 13px;border-radius:8px;cursor:pointer;color:#344054}nav button:hover,nav button.active{background:#edf4fa;color:#1769aa}.mobile-menu-btn{display:none;border:0;background:none;font-size:27px}main{max-width:1250px;margin:auto;padding:25px}.page{display:none}.page.active{display:block}.page-header{margin-bottom:22px}.page-header h1{margin:0 0 5px;font-size:28px}.page-header p{margin:0;color:#697586}.dashboard-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.dashboard-card,.admin-card,.message-card,.daily-card,.class-substitution{background:#fff;border:1px solid #dce3e9;border-radius:14px}.dashboard-card{padding:22px;cursor:pointer}.dashboard-card:hover{box-shadow:0 7px 20px #0001}.card-icon{font-size:30px}.dashboard-card h2{margin:12px 0 5px;font-size:18px}.dashboard-card p{margin:0;color:#697586}.toolbar,.substitution-filter{background:#fff;border:1px solid #dce3e9;border-radius:12px;padding:15px;margin-bottom:20px;display:flex;gap:20px;align-items:end}label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:bold}input,select,textarea{font:inherit;border:1px solid #cbd5df;border-radius:7px;padding:9px 10px;background:#fff}textarea{min-height:100px;resize:vertical}.timetable-wrapper{overflow-x:auto;background:#fff;border-radius:12px;border:1px solid #dce3e9}.timetable{width:100%;min-width:850px;border-collapse:collapse}.timetable th,.timetable td{border:1px solid #dce3e9}.timetable th{background:#eef3f7;padding:12px 8px}.timetable td{height:85px;min-width:105px;vertical-align:top}.day-name{background:#f7f9fb;font-weight:bold;text-align:center;vertical-align:middle!important}.lesson{padding:9px}.lesson-subject{font-size:17px;font-weight:bold}.lesson-teacher{color:#697586;font-size:11px;margin-top:5px}.split-lesson{padding:7px 8px;border-bottom:1px solid #dce3e9}.daily-list{display:flex;flex-direction:column;gap:10px}.daily-card{padding:14px 17px;display:grid;grid-template-columns:60px 100px 1fr auto;align-items:center;gap:15px}.daily-period,.sub-period{font-weight:bold;color:#1769aa}.daily-period{font-size:20px}.daily-subject{font-size:17px;font-weight:bold}.daily-teacher{margin-top:4px;color:#697586}.daily-subteacher{margin-top:5px;font-size:13px}.substitution-badge{display:inline-block;background:#fff1c7;color:#825f00;border-radius:5px;padding:4px 7px;font-size:11px;font-weight:bold}.daily-room{color:#697586;font-size:13px}.class-substitution{margin-bottom:24px;overflow:hidden}.class-substitution-header{background:#eef4f8;padding:14px 17px;display:flex;justify-content:space-between;font-weight:bold}.class-substitution-body{padding:10px}.substitution-card{border:1px solid #dce3e9;border-radius:10px;padding:13px;margin-bottom:9px;display:grid;grid-template-columns:65px 1fr auto;gap:15px;align-items:center}.substitution-card:last-child{margin-bottom:0}.sub-period{font-size:19px}.sub-main strong{display:block;font-size:16px}.sub-main small{display:block;color:#697586;margin-top:4px}.sub-change{background:#fff8e1;border-left:4px solid #f4b400;padding:8px 10px;margin-top:8px}.delete-btn{border:0;background:#fdecec;color:#c62828;padding:8px 10px;border-radius:7px;cursor:pointer;font-weight:bold}.message-card{padding:17px;margin-bottom:12px}.message-top{display:flex;justify-content:space-between;gap:15px}.message-title{font-weight:bold;font-size:17px}.message-date{color:#697586;font-size:12px}.message-text{margin-top:10px;line-height:1.5}.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.admin-card{padding:20px}.admin-card h2{margin-top:0}.admin-card form{display:flex;flex-direction:column;gap:13px}.primary-btn{border:0;background:#1769aa;color:#fff;border-radius:8px;padding:11px 15px;cursor:pointer;font-weight:bold}.empty{background:#fff;border:1px dashed #cbd5df;padding:30px;text-align:center;color:#697586;border-radius:12px}@media(max-width:800px){.topbar{height:62px;padding:0 14px}.brand-icon{width:36px;height:36px;font-size:18px}.brand strong{font-size:13px}.brand span{font-size:10px}.mobile-menu-btn{display:block}nav{display:none;position:absolute;left:0;right:0;top:62px;background:#fff;border-bottom:1px solid #dce3e9;padding:8px;flex-direction:column;box-shadow:0 7px 15px #0001}nav.open{display:flex}nav button{text-align:left;padding:12px}main{padding:15px 10px}.page-header h1{font-size:23px}.dashboard-grid{grid-template-columns:1fr 1fr;gap:10px}.dashboard-card{padding:15px}.toolbar,.substitution-filter{flex-direction:column;align-items:stretch}.daily-card{grid-template-columns:42px 1fr;gap:8px 12px}.daily-card .daily-room{grid-column:2}.substitution-card{grid-template-columns:45px 1fr}.substitution-card .delete-btn{grid-column:2;width:100%}.admin-grid{grid-template-columns:1fr}.message-top{flex-direction:column}}@media(max-width:450px){.dashboard-grid{grid-template-columns:1fr}.dashboard-card{display:grid;grid-template-columns:42px 1fr;column-gap:10px}.dashboard-card .card-icon{grid-row:span 2}.dashboard-card h2{margin:0}.dashboard-card p{margin-top:3px}}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --blue: #1769aa;
+  --border: #dce3e9;
+  --muted: #697586;
+  --background: #f1f5f8;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: #202833;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+button, select {
+  cursor: pointer;
+}
+
+.topbar {
+  min-height: 76px;
+  padding: 12px 24px;
+  background: white;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: var(--blue);
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.brand strong, .brand span {
+  display: block;
+}
+
+.brand span {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+nav {
+  display: flex;
+  gap: 4px;
+}
+
+nav button {
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  padding: 11px 12px;
+  color: #344054;
+}
+
+nav button:hover, nav button.active {
+  background: #eaf3fb;
+  color: var(--blue);
+}
+
+.menu-toggle {
+  display: none;
+  border: 0;
+  background: transparent;
+  font-size: 29px;
+}
+
+main {
+  max-width: 1250px;
+  margin: auto;
+  padding: 26px;
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+h1 {
+  font-size: 28px;
+  margin: 0 0 18px;
+}
+
+h2 {
+  font-size: 20px;
+  margin-top: 0;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.panel, .home-card, .daily-card, .class-substitution,
+.message-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.panel {
+  padding: 18px;
+  margin-bottom: 20px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+input, select, textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 11px 12px;
+  background: white;
+  color: #202833;
+  border: 1px solid #cbd5df;
+  border-radius: 8px;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.filters {
+  display: flex;
+  align-items: end;
+  gap: 18px;
+}
+
+.filters label {
+  flex: 1;
+  max-width: 360px;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.home-card {
+  text-align: left;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  color: inherit;
+}
+
+.home-card:hover {
+  border-color: var(--blue);
+}
+
+.home-card span {
+  font-size: 29px;
+}
+
+.home-card small {
+  color: var(--muted);
+}
+
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.timetable {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.timetable th, .timetable td {
+  border: 1px solid var(--border);
+}
+
+.timetable th {
+  background: #edf3f7;
+  height: 56px;
+  font-size: 18px;
+}
+
+.timetable th:first-child {
+  width: 76px;
+}
+
+.timetable td {
+  height: 118px;
+  vertical-align: top;
+  background: white;
+}
+
+.timetable .day-name {
+  width: 76px;
+  background: #f7f9fb;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: bold;
+}
+
+.lesson {
+  padding: 13px;
+  min-height: 70px;
+}
+
+.lesson + .lesson {
+  border-top: 1px solid var(--border);
+}
+
+.lesson-subject {
+  font-weight: bold;
+  font-size: 19px;
+}
+
+.lesson-teacher {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.daily-list {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.daily-card {
+  display: grid;
+  grid-template-columns: 66px minmax(0, 1fr);
+  overflow: hidden;
+  box-shadow: 0 2px 5px #00000008;
+}
+
+.daily-period {
+  padding: 20px 8px;
+  text-align: center;
+  font-size: 27px;
+  color: #777;
+}
+
+.daily-lesson-stack {
+  min-width: 0;
+}
+
+.daily-lesson-row {
+  padding: 17px 20px;
+  border-bottom: 1px solid #eceff2;
+}
+
+.daily-lesson-row:last-child {
+  border-bottom: 0;
+}
+
+.daily-subject {
+  font-size: 21px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.daily-teacher {
+  margin-top: 7px;
+  color: #777;
+  font-size: 17px;
+}
+
+.daily-substitution-line {
+  display: block;
+  margin-top: 9px;
+  padding: 7px 10px;
+  background: #fff8bd;
+  font-size: 17px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.original-crossed {
+  color: #777;
+  text-decoration: line-through;
+}
+
+.sub-arrow {
+  font-weight: bold;
+  padding: 0 5px;
+}
+
+.daily-note {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.class-substitution {
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.class-substitution-header {
+  padding: 15px 18px;
+  background: #edf3f7;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-weight: bold;
+}
+
+.class-substitution-body {
+  padding: 12px;
+}
+
+.substitution-card {
+  display: grid;
+  grid-template-columns: 65px minmax(0, 1fr) auto;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  background: white;
+  min-height: 100px;
+}
+
+.substitution-card:last-child {
+  margin-bottom: 0;
+}
+
+.substitution-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 7px;
+  background: #ffeb00;
+}
+
+.sub-period {
+  padding: 20px 10px;
+  text-align: center;
+  font-size: 27px;
+  font-weight: bold;
+}
+
+.sub-main {
+  min-width: 0;
+  padding: 20px 12px 17px 5px;
+}
+
+.sub-main strong {
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.sub-main small {
+  display: block;
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.sub-change {
+  margin-top: 8px;
+  color: #555;
+  font-size: 14px;
+}
+
+.primary, .delete-btn {
+  border: 0;
+  border-radius: 8px;
+  padding: 11px 14px;
+  font-weight: bold;
+}
+
+.primary {
+  color: white;
+  background: var(--blue);
+}
+
+.delete-btn {
+  align-self: center;
+  margin: 12px;
+  color: #b42318;
+  background: #fdecec;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.message-card {
+  padding: 18px;
+  margin-bottom: 13px;
+}
+
+.message-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.message-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.message-date {
+  color: var(--muted);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.message-text {
+  margin: 12px 0;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.empty {
+  padding: 28px 16px;
+  text-align: center;
+  color: var(--muted);
+  background: white;
+  border: 1px dashed #cbd5df;
+  border-radius: 12px;
+}
+
+@media (max-width: 900px) {
+  .topbar {
+    padding: 12px 15px;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 8px;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 8px 15px #00000012;
+    flex-direction: column;
+  }
+
+  nav.open {
+    display: flex;
+  }
+
+  nav button {
+    text-align: left;
+    padding: 13px;
+  }
+
+  main {
+    padding: 20px 12px;
+  }
+
+  .home-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .brand-icon {
+    width: 39px;
+    height: 39px;
+    font-size: 21px;
+  }
+
+  .brand strong {
+    font-size: 13px;
+  }
+
+  .brand span {
+    font-size: 11px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .home-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+  }
+
+  .home-card {
+    padding: 14px;
+    overflow-wrap: anywhere;
+  }
+
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filters label {
+    max-width: none;
+  }
+
+  .daily-card {
+    grid-template-columns: 45px minmax(0, 1fr);
+  }
+
+  .daily-period {
+    padding: 15px 5px;
+    font-size: 22px;
+  }
+
+  .daily-lesson-row {
+    padding: 13px 11px;
+  }
+
+  .daily-subject {
+    font-size: 17px;
+  }
+
+  .daily-teacher, .daily-substitution-line {
+    font-size: 14px;
+  }
+
+  .substitution-card {
+    grid-template-columns: 45px minmax(0, 1fr);
+  }
+
+  .sub-period {
+    font-size: 22px;
+    padding: 17px 5px;
+  }
+
+  .sub-main {
+    padding: 16px 10px 10px 3px;
+  }
+
+  .sub-main strong {
+    font-size: 16px;
+  }
+
+  .substitution-card .delete-btn {
+    grid-column: 2;
+    justify-self: end;
+    margin: 0 10px 10px;
+  }
+
+  .message-heading {
+    flex-direction: column;
+  }
+
+  .message-date {
+    white-space: normal;
+  }
+}
