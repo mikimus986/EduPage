@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#174ea6">
   <title>Školní systém</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -14,121 +13,96 @@
       <div class="brand-icon">Š</div>
       <div>
         <h1>Školní systém</h1>
-        <p>Rozvrhy, suplování a školní zprávy</p>
+        <p>Rozvrhy, suplování a zprávy</p>
       </div>
     </div>
-
-    <div class="today-info">
-      <span id="currentDate"></span>
-      <span id="currentTime"></span>
-    </div>
+    <div id="todayLabel" class="today-label"></div>
   </header>
 
   <nav class="navigation">
-    <button class="nav-button active" data-page="weekly">Týdenní rozvrh</button>
-    <button class="nav-button" data-page="daily">Denní rozvrh</button>
+    <button class="nav-button active" data-page="timetable">Rozvrh</button>
     <button class="nav-button" data-page="substitutions">Suplování</button>
     <button class="nav-button" data-page="messages">Zprávy</button>
   </nav>
 
   <main class="container">
-    <!-- TÝDENNÍ ROZVRH -->
-    <section class="page active" id="page-weekly">
+    <section class="page active" id="page-timetable">
       <div class="page-heading">
         <div>
-          <h2>Týdenní rozvrh</h2>
-          <p>Přehled vyučování na celý týden.</p>
+          <h2>Rozvrh hodin</h2>
+          <p>Vyber třídu a den, který chceš zobrazit.</p>
         </div>
-        <div class="toolbar">
-          <label for="weeklyClass">Třída</label>
-          <select id="weeklyClass">
+      </div>
+
+      <div class="toolbar">
+        <label>
+          Třída
+          <select id="classSelect">
             <option value="6">6. třída</option>
             <option value="7">7. třída</option>
             <option value="8">8. třída</option>
-            <option value="9">9. třída</option>
+            <option value="9" selected>9. třída</option>
           </select>
+        </label>
+
+        <label>
+          Datum
+          <input type="date" id="dateSelect">
+        </label>
+
+        <div class="view-switch">
+          <button id="weeklyButton" class="secondary-button active">Týdenní</button>
+          <button id="dailyButton" class="secondary-button">Denní</button>
         </div>
       </div>
 
-      <div class="table-wrapper">
-        <table class="timetable" id="weeklyTable">
-          <thead>
-            <tr>
-              <th>Hodina</th>
-              <th>Pondělí</th>
-              <th>Úterý</th>
-              <th>Středa</th>
-              <th>Čtvrtek</th>
-              <th>Pátek</th>
-            </tr>
-          </thead>
-          <tbody id="weeklyBody"></tbody>
-        </table>
+      <div id="weeklyView" class="view-panel">
+        <div class="table-scroll">
+          <table class="timetable" id="weeklyTable"></table>
+        </div>
+        <p class="hint">Na menší obrazovce můžeš tabulkou posouvat do stran.</p>
       </div>
-      <p class="hint">Na mobilu lze tabulkou posouvat do stran.</p>
+
+      <div id="dailyView" class="view-panel hidden">
+        <div class="daily-heading">
+          <h3 id="dailyTitle">Denní rozvrh</h3>
+          <p id="dailyDate"></p>
+        </div>
+        <div id="dailyLessons" class="daily-lessons"></div>
+      </div>
     </section>
 
-    <!-- DENNÍ ROZVRH -->
-    <section class="page" id="page-daily">
-      <div class="page-heading">
-        <div>
-          <h2>Denní rozvrh</h2>
-          <p>Podrobné informace o předmětech a vyučujících.</p>
-        </div>
-      </div>
-
-      <div class="filters">
-        <div class="field">
-          <label for="dailyDate">Datum</label>
-          <input type="date" id="dailyDate">
-        </div>
-        <div class="field">
-          <label for="dailyClass">Třída</label>
-          <select id="dailyClass">
-            <option value="6">6. třída</option>
-            <option value="7">7. třída</option>
-            <option value="8">8. třída</option>
-            <option value="9">9. třída</option>
-          </select>
-        </div>
-      </div>
-
-      <div id="dailyContent" class="daily-list"></div>
-    </section>
-
-    <!-- SUPLOVÁNÍ -->
     <section class="page" id="page-substitutions">
       <div class="page-heading">
         <div>
           <h2>Suplování</h2>
-          <p>Vytváření, filtrování a mazání změn v rozvrhu.</p>
+          <p>Vytvoř, uprav nebo smaž suplování pro konkrétní hodinu.</p>
         </div>
-        <button class="primary-button" id="showSubForm">
-          + Přidat suplování
-        </button>
       </div>
 
-      <form id="substitutionForm" class="panel form-panel hidden">
-        <h3>Nové suplování</h3>
+      <form id="substitutionForm" class="form-card">
+        <h3 id="subFormTitle">Přidat suplování</h3>
+
+        <input type="hidden" id="substitutionId">
 
         <div class="form-grid">
-          <div class="field">
-            <label for="subDate">Datum</label>
+          <label>
+            Datum
             <input type="date" id="subDate" required>
-          </div>
+          </label>
 
-          <div class="field">
-            <label for="subClass">Třída</label>
+          <label>
+            Třída
             <select id="subClass" required>
               <option value="6">6. třída</option>
               <option value="7">7. třída</option>
               <option value="8">8. třída</option>
               <option value="9">9. třída</option>
             </select>
-          </div>
+          </label>
 
-          <div class="field">
-            <label for="subLesson">Vyučovací hodina</label>
+          <label>
+            Hodina
             <select id="subLesson" required>
               <option value="1">1. hodina</option>
               <option value="2">2. hodina</option>
@@ -139,109 +113,102 @@
               <option value="6">6. hodina</option>
               <option value="7">7. hodina</option>
             </select>
-          </div>
+          </label>
 
-          <div class="field">
-            <label for="subOriginalSubject">Původní předmět</label>
+          <label>
+            Původní předmět
             <input id="subOriginalSubject" placeholder="Např. Matematika">
-          </div>
+          </label>
 
-          <div class="field">
-            <label for="subSubject">Nový předmět</label>
+          <label>
+            Nový předmět
             <input id="subSubject" placeholder="Prázdné = beze změny">
-          </div>
+          </label>
 
-          <div class="field">
-            <label for="subOriginalTeacher">Původní učitel</label>
+          <label>
+            Původní učitel
             <input id="subOriginalTeacher" placeholder="Např. Petra Soukupová">
-          </div>
+          </label>
 
-          <div class="field">
-            <label for="subTeacher">Zastupující učitel</label>
+          <label>
+            Nový učitel
             <input id="subTeacher" placeholder="Např. Marek Holešovský" required>
-          </div>
+          </label>
 
-          <div class="field">
-            <label for="subRoom">Učebna</label>
-            <input id="subRoom" placeholder="Např. učebna 12">
-          </div>
-
-          <div class="field full-width">
-            <label for="subNote">Poznámka</label>
-            <textarea id="subNote" rows="2" placeholder="Nepovinná poznámka"></textarea>
-          </div>
+          <label>
+            Učebna
+            <input id="subRoom" placeholder="Např. 204">
+          </label>
         </div>
 
+        <label>
+          Poznámka
+          <textarea id="subNote" rows="2" placeholder="Nepovinná poznámka"></textarea>
+        </label>
+
         <div class="form-actions">
-          <button class="primary-button" type="submit">Uložit suplování</button>
-          <button class="secondary-button" type="button" id="cancelSubForm">Zrušit</button>
+          <button type="submit" class="primary-button" id="saveSubButton">Uložit suplování</button>
+          <button type="button" class="secondary-button hidden" id="cancelSubEdit">Zrušit úpravy</button>
         </div>
       </form>
 
-      <div class="filters">
-        <div class="field">
-          <label for="subFilterDate">Filtrovat datum</label>
-          <input type="date" id="subFilterDate">
+      <div class="list-heading">
+        <h3>Přehled suplování</h3>
+        <div class="filter-row">
+          <label>
+            Datum
+            <input type="date" id="filterSubDate">
+          </label>
+          <label>
+            Třída
+            <select id="filterSubClass">
+              <option value="all">Všechny třídy</option>
+              <option value="6">6. třída</option>
+              <option value="7">7. třída</option>
+              <option value="8">8. třída</option>
+              <option value="9">9. třída</option>
+            </select>
+          </label>
         </div>
-        <div class="field">
-          <label for="subFilterClass">Filtrovat třídu</label>
-          <select id="subFilterClass">
-            <option value="">Všechny třídy</option>
-            <option value="6">6. třída</option>
-            <option value="7">7. třída</option>
-            <option value="8">8. třída</option>
-            <option value="9">9. třída</option>
-          </select>
-        </div>
-        <button class="secondary-button" id="clearSubFilters" type="button">
-          Zrušit filtry
-        </button>
       </div>
 
-      <div id="substitutionList" class="card-list"></div>
+      <div id="substitutionList" class="item-list"></div>
     </section>
 
-    <!-- ZPRÁVY -->
     <section class="page" id="page-messages">
       <div class="page-heading">
         <div>
           <h2>Školní zprávy</h2>
           <p>Oznámení a důležité informace.</p>
         </div>
-        <button class="primary-button" id="showMessageForm">
-          + Přidat zprávu
-        </button>
       </div>
 
-      <form id="messageForm" class="panel form-panel hidden">
+      <form id="messageForm" class="form-card">
         <h3>Nová zpráva</h3>
 
-        <div class="field">
-          <label for="messageTitle">Nadpis</label>
-          <input id="messageTitle" maxlength="120" required
-                 placeholder="Např. Změna rozvrhu">
-        </div>
+        <label>
+          Nadpis
+          <input type="text" id="messageTitle" required maxlength="120" placeholder="Nadpis zprávy">
+        </label>
 
-        <div class="field">
-          <label for="messageText">Text zprávy</label>
-          <textarea id="messageText" rows="5" required
-                    placeholder="Napiš obsah zprávy..."></textarea>
-        </div>
+        <label>
+          Text zprávy
+          <textarea id="messageText" rows="4" required placeholder="Napiš zprávu..."></textarea>
+        </label>
 
-        <div class="form-actions">
-          <button class="primary-button" type="submit">Publikovat zprávu</button>
-          <button class="secondary-button" type="button" id="cancelMessageForm">
-            Zrušit
-          </button>
-        </div>
+        <button type="submit" class="primary-button">Zveřejnit zprávu</button>
       </form>
 
-      <div id="messageList" class="card-list"></div>
+      <div class="list-heading">
+        <h3>Všechny zprávy</h3>
+      </div>
+
+      <div id="messageList" class="message-list"></div>
     </section>
   </main>
 
   <footer class="footer">
-    Školní systém · Rozvrhy a informace
+    Školní systém · Rozvrhy a suplování
   </footer>
 
   <script src="data.js"></script>
