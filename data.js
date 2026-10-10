@@ -45,8 +45,8 @@
     };
   }
 
-  const periods = ["1", "2", "3", "4", "5A", "5B", "6", "7"];
   const days = ["Po", "Út", "St", "Čt", "Pá"];
+  const periods = ["1", "2", "3", "4", "5A", "5B", "6", "7"];
 
   const schedules = {
     "6": {
