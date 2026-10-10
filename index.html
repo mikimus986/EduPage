@@ -3,7 +3,7 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Školní systém</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -30,7 +30,7 @@
       <div class="page-heading">
         <div>
           <h2>Rozvrh hodin</h2>
-          <p>Vyber třídu a den, který chceš zobrazit.</p>
+          <p>Týdenní přehled nebo rozvrh pro vybraný den.</p>
         </div>
       </div>
 
@@ -60,7 +60,7 @@
         <div class="table-scroll">
           <table class="timetable" id="weeklyTable"></table>
         </div>
-        <p class="hint">Na menší obrazovce můžeš tabulkou posouvat do stran.</p>
+        <p class="hint">Dny jsou vlevo a vyučovací hodiny nahoře.</p>
       </div>
 
       <div id="dailyView" class="view-panel hidden">
@@ -76,13 +76,12 @@
       <div class="page-heading">
         <div>
           <h2>Suplování</h2>
-          <p>Vytvoř, uprav nebo smaž suplování pro konkrétní hodinu.</p>
+          <p>Suplování může platit pro celou hodinu nebo jen jednu skupinu.</p>
         </div>
       </div>
 
       <form id="substitutionForm" class="form-card">
         <h3 id="subFormTitle">Přidat suplování</h3>
-
         <input type="hidden" id="substitutionId">
 
         <div class="form-grid">
@@ -116,6 +115,13 @@
           </label>
 
           <label>
+            Platnost suplování
+            <select id="subGroup">
+              <option value="all">Všechny skupiny / celá hodina</option>
+            </select>
+          </label>
+
+          <label>
             Původní předmět
             <input id="subOriginalSubject" placeholder="Např. Matematika">
           </label>
@@ -140,6 +146,10 @@
             <input id="subRoom" placeholder="Např. 204">
           </label>
         </div>
+
+        <p id="groupHelp" class="hint">
+          Vyber datum, třídu a hodinu. Pokud je hodina rozdělena do skupin, můžeš zvolit jednu konkrétní skupinu.
+        </p>
 
         <label>
           Poznámka
@@ -185,31 +195,23 @@
 
       <form id="messageForm" class="form-card">
         <h3>Nová zpráva</h3>
-
         <label>
           Nadpis
-          <input type="text" id="messageTitle" required maxlength="120" placeholder="Nadpis zprávy">
+          <input id="messageTitle" required maxlength="120" placeholder="Nadpis zprávy">
         </label>
-
         <label>
           Text zprávy
           <textarea id="messageText" rows="4" required placeholder="Napiš zprávu..."></textarea>
         </label>
-
         <button type="submit" class="primary-button">Zveřejnit zprávu</button>
       </form>
 
-      <div class="list-heading">
-        <h3>Všechny zprávy</h3>
-      </div>
-
+      <div class="list-heading"><h3>Všechny zprávy</h3></div>
       <div id="messageList" class="message-list"></div>
     </section>
   </main>
 
-  <footer class="footer">
-    Školní systém · Rozvrhy a suplování
-  </footer>
+  <footer class="footer">Školní systém · Rozvrhy a suplování</footer>
 
   <script src="data.js"></script>
   <script src="script.js"></script>
