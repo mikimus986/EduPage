@@ -157,7 +157,7 @@
         "3": L("M", "MUSM"),
         "4": L("Př", "SPNI"),
         "5A": L("D", "MUSR"),
-        "6": [L("Nj", "MUSR"), L("Sj", "MUIV")]
+        "6": [L("Nj", "MUSM"), L("Sj", "MUIV")]
       },
       Čt: {
         "1": [L("Pč", "MUSR"), L("Inf", "NOMA")],
