@@ -133,6 +133,7 @@
   // TÝDENNÍ ROZVRH: DNY VLEVO, HODINY NAHOŘE
   function renderWeekly() {
     const classId = $("#classSelect").value;
+
     let html = `
       <thead>
         <tr>
@@ -150,14 +151,26 @@
         const items = getItems(classId, day, period);
         html += "<td>";
 
-        items.forEach(item => {
+        if (items.length === 1) {
+          const item = items[0];
           html += `
-            <div class="lesson-entry">
+            <div class="lesson-entry lesson-entry-single">
               <span class="lesson-subject">${esc(item.shortSubject || item.subject)}</span>
               <span class="lesson-teacher">${esc(item.shortTeacher || item.teacher)}</span>
             </div>
           `;
-        });
+        } else if (items.length > 1) {
+          html += `<div class="lesson-entries-multiple">`;
+          items.forEach(item => {
+            html += `
+              <div class="lesson-entry">
+                <span class="lesson-subject">${esc(item.shortSubject || item.subject)}</span>
+                <span class="lesson-teacher">${esc(item.shortTeacher || item.teacher)}</span>
+              </div>
+            `;
+          });
+          html += `</div>`;
+        }
 
         html += "</td>";
       });
@@ -168,6 +181,7 @@
     html += "</tbody>";
     $("#weeklyTable").innerHTML = html;
   }
+
 
   // DENNÍ ROZVRH
   function renderDaily() {

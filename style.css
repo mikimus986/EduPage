@@ -1,4 +1,3 @@
-
 :root {
   --primary: #1769aa;
   --primary-dark: #10558d;
@@ -185,15 +184,41 @@ input:focus, select:focus, textarea:focus {
 
 .timetable td {
   height: 90px;
-  vertical-align: top;
+  vertical-align: middle;
   background: white;
+  padding: 5px;
 }
 
+/* Jediný předmět využije celou buňku */
 .lesson-entry {
-  margin: 0 0 5px;
-  padding: 6px 4px;
+  min-width: 0;
+  width: 100%;
+  margin: 0;
+  padding: 8px 5px;
   border-radius: 5px;
   background: #f0f6fc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-wrap: anywhere;
+}
+
+.lesson-entry-single {
+  min-height: 72px;
+  height: 100%;
+}
+
+/* Pokud jsou v hodině dvě skupiny, zobrazí se vedle sebe */
+.lesson-entries-multiple {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  width: 100%;
+  height: 100%;
+}
+
+.lesson-entries-multiple .lesson-entry {
+  min-height: 72px;
 }
 
 .lesson-subject {
