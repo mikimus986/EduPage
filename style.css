@@ -230,7 +230,7 @@ textarea:focus {
   overflow-x: auto;
 }
 
-/* DNY VLEVO, VYUČOVACÍ HODINY NAHOŘE */
+/* TÝDENNÍ ROZVRH */
 .timetable {
   width: 100%;
   min-width: 850px;
@@ -271,7 +271,7 @@ textarea:focus {
   font-weight: 800;
 }
 
-/* Buňka se může zvětšit, pokud obsahuje více skupin */
+/* Buňky se mohou zvětšit při více skupinách */
 .timetable td {
   min-height: 90px;
   height: auto;
@@ -280,7 +280,6 @@ textarea:focus {
   padding: 5px;
 }
 
-/* Základní vzhled políčka předmětu */
 .lesson-entry {
   min-width: 0;
   width: 100%;
@@ -294,13 +293,13 @@ textarea:focus {
   overflow-wrap: anywhere;
 }
 
-/* Jeden předmět zabere celou šířku buňky */
+/* Jeden předmět přes celou šířku */
 .lesson-entry-single {
   min-height: 72px;
   width: 100%;
 }
 
-/* Rozdělené hodiny: jednotlivé skupiny POD SEBOU */
+/* Rozdělené hodiny – skupiny POD SEBOU */
 .lesson-entries-multiple {
   display: flex;
   flex-direction: column;
@@ -309,7 +308,6 @@ textarea:focus {
   width: 100%;
 }
 
-/* Každá skupina má vlastní políčko přes celou šířku */
 .lesson-entries-multiple .lesson-entry {
   min-height: 0;
   width: 100%;
@@ -381,26 +379,48 @@ textarea:focus {
   min-width: 0;
 }
 
-.daily-subject {
+/* Předmět vlevo a učebna vpravo nahoře */
+.daily-group-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.daily-group-heading .daily-subject {
+  min-width: 0;
+  flex: 1;
   font-size: 16px;
   font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+/* Číslo učebny v pravém horním rohu */
+.daily-room-badge {
+  flex: 0 0 auto;
+  font-size: 17px;
+  font-weight: 800;
+  color: #202b3c;
+  text-align: right;
+  white-space: nowrap;
+  padding-left: 8px;
 }
 
 .daily-teacher,
-.daily-room,
 .daily-note {
   margin-top: 5px;
   color: var(--muted);
   font-size: 13px;
 }
 
+/* Rozdělené skupiny v denním rozvrhu pod sebou */
 .daily-group + .daily-group {
-  margin-top: 10px;
-  padding-top: 10px;
+  margin-top: 12px;
+  padding-top: 12px;
   border-top: 1px solid var(--border);
 }
 
-/* Zvýraznění suplování */
 .substitution-highlight {
   margin-top: 9px;
   padding: 10px;
@@ -518,7 +538,6 @@ textarea:focus {
   color: #214d77;
 }
 
-/* Prázdné seznamy */
 .empty-state {
   padding: 24px;
   text-align: center;
@@ -538,7 +557,7 @@ textarea:focus {
   background: white;
 }
 
-/* MOBILNÍ ZAŘÍZENÍ */
+/* MOBILNÍ ZOBRAZENÍ */
 @media (max-width: 760px) {
   .topbar {
     padding: 14px 16px;
@@ -623,7 +642,11 @@ textarea:focus {
     padding: 10px;
   }
 
-  .daily-subject {
+  .daily-group-heading .daily-subject {
     font-size: 15px;
+  }
+
+  .daily-room-badge {
+    font-size: 16px;
   }
 }
