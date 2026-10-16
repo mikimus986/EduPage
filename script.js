@@ -1,4 +1,3 @@
-
 (() => {
   "use strict";
 
@@ -130,7 +129,7 @@
   $("#classSelect").addEventListener("change", renderTimetable);
   $("#dateSelect").addEventListener("change", renderTimetable);
 
-  // TÝDENNÍ ROZVRH: DNY VLEVO, HODINY NAHOŘE
+  // TÝDENNÍ ROZVRH – BEZ ČÍSEL UČEBEN
   function renderWeekly() {
     const classId = $("#classSelect").value;
 
@@ -161,6 +160,7 @@
           `;
         } else if (items.length > 1) {
           html += `<div class="lesson-entries-multiple">`;
+
           items.forEach(item => {
             html += `
               <div class="lesson-entry">
@@ -169,6 +169,7 @@
               </div>
             `;
           });
+
           html += `</div>`;
         }
 
@@ -181,7 +182,6 @@
     html += "</tbody>";
     $("#weeklyTable").innerHTML = html;
   }
-
 
   // DENNÍ ROZVRH
   function renderDaily() {
@@ -207,6 +207,7 @@
 
     PERIODS.forEach(period => {
       const items = getItems(classId, day, period);
+
       const allSub = substitutions.find(sub =>
         sub.date === date &&
         String(sub.classId) === String(classId) &&
@@ -230,31 +231,47 @@
           <div class="daily-lesson-content">
       `;
 
+      // Ručně zadané suplování, i když v rozvrhu není běžná hodina.
       if (!items.length && allSub) {
+        const room = allSub.room || "";
+
         html += `
-          <div class="daily-subject">${esc(allSub.subject || "Suplovaná hodina")}</div>
-          <div class="daily-teacher">Učitel: ${esc(allSub.teacher)}</div>
-          <div class="substitution-highlight">
-            <strong>Suplování celé hodiny</strong>
-            <span class="old-value">${esc(allSub.originalTeacher || "Neuveden")}</span>
-            →
-            <span class="new-value">${esc(allSub.teacher)}</span>
+          <div class="daily-group">
+            <div class="daily-group-heading">
+              <div class="daily-subject">${esc(allSub.subject || "Suplovaná hodina")}</div>
+              ${room ? `<div class="daily-room-badge">${esc(room)}</div>` : ""}
+            </div>
+            <div class="daily-teacher">Učitel: ${esc(allSub.teacher || "Neuveden")}</div>
+            ${allSub.note ? `<div class="daily-note">${esc(allSub.note)}</div>` : ""}
+            <div class="substitution-highlight">
+              <strong>Suplování celé hodiny</strong>
+              <span class="old-value">${esc(allSub.originalTeacher || "Neuveden")}</span>
+              →
+              <span class="new-value">${esc(allSub.teacher || "Neuveden")}</span>
+            </div>
           </div>
         `;
       }
 
       items.forEach((item, index) => {
         const sub = findSub(date, classId, period, index);
+
         const subject = sub?.subject?.trim() || item.subject;
         const teacher = sub?.teacher || item.teacher;
-        const room = sub?.room || "";
+
+        // U suplování má přednost nová učebna.
+        // Pokud není zadána, použije se učebna z běžného rozvrhu.
+        const room = sub?.room?.trim() || item.room || "";
         const note = sub?.note || "";
 
         html += `
           <div class="daily-group">
-            <div class="daily-subject">${esc(subject)}</div>
+            <div class="daily-group-heading">
+              <div class="daily-subject">${esc(subject)}</div>
+              ${room ? `<div class="daily-room-badge">${esc(room)}</div>` : ""}
+            </div>
+
             <div class="daily-teacher">Učitel: ${esc(teacher || "Neuveden")}</div>
-            ${room ? `<div class="daily-room">Učebna: ${esc(room)}</div>` : ""}
             ${note ? `<div class="daily-note">${esc(note)}</div>` : ""}
         `;
 
@@ -269,16 +286,18 @@
               <strong>
                 Suplování${sub.groupIndex == null ? " celé hodiny" : ` – ${esc(groupLabel(item, index))}`}
               </strong>
+
               ${changedSubject ? `
                 Předmět:
                 <span class="old-value">${esc(originalSubject)}</span>
                 →
                 <span class="new-value">${esc(sub.subject)}</span><br>
               ` : ""}
+
               Učitel:
               <span class="old-value">${esc(originalTeacher)}</span>
               →
-              <span class="new-value">${esc(sub.teacher)}</span>
+              <span class="new-value">${esc(sub.teacher || "Neuveden")}</span>
             </div>
           `;
         }
@@ -316,6 +335,7 @@
         option.textContent = groupLabel(item, index);
         select.appendChild(option);
       });
+
       $("#groupHelp").textContent =
         "Tato hodina má více skupin. Vyber, jestli suplování platí pro všechny, nebo jen pro konkrétní skupinu.";
     } else if (items.length === 1) {
@@ -329,7 +349,7 @@
     const valid = [...select.options].some(option => option.value === String(preferredValue));
     select.value = valid ? String(preferredValue) : "all";
 
-    // Při výběru konkrétní skupiny předvyplníme její předmět a učitele.
+    // Při výběru konkrétní skupiny předvyplníme předmět a učitele.
     const selectedIndex = select.value === "all" ? null : Number(select.value);
     const item = selectedIndex === null ? null : items[selectedIndex];
 
@@ -392,10 +412,12 @@
       if (!confirm("Pro tuto skupinu už suplování existuje. Chceš ho nahradit?")) {
         return;
       }
+
       substitutions = substitutions.filter(sub => sub.id !== duplicate.id);
     }
 
     const oldIndex = substitutions.findIndex(sub => sub.id === id);
+
     if (oldIndex >= 0) {
       substitutions[oldIndex] = entry;
     } else {
@@ -489,6 +511,7 @@
       const items = day ? getItems(sub.classId, day, sub.period) : [];
       const groupIndex = sub.groupIndex == null ? null : Number(sub.groupIndex);
       const selectedItem = groupIndex == null ? null : items[groupIndex];
+
       const groupText = groupIndex == null
         ? "Celá hodina / všechny skupiny"
         : selectedItem
@@ -500,17 +523,22 @@
           <div class="item-meta">
             ${esc(formatDate(sub.date))} · ${esc(sub.period)}. hodina
           </div>
+
           <h4>${esc(sub.subject || sub.originalSubject || "Suplovaná hodina")}</h4>
           <p><strong>Platnost:</strong> ${esc(groupText)}</p>
+
           ${sub.originalSubject ? `<p>Původní předmět: ${esc(sub.originalSubject)}</p>` : ""}
+
           <p>
             <strong>Učitel:</strong>
             <span class="old-value">${esc(sub.originalTeacher || "Neuveden")}</span>
             →
             <span class="new-value">${esc(sub.teacher)}</span>
           </p>
+
           ${sub.room ? `<p><strong>Učebna:</strong> ${esc(sub.room)}</p>` : ""}
           ${sub.note ? `<p>${esc(sub.note)}</p>` : ""}
+
           <div class="item-actions">
             <button class="secondary-button" data-action="edit-sub" data-id="${esc(sub.id)}">Upravit</button>
             <button class="danger-button" data-action="delete-sub" data-id="${esc(sub.id)}">Smazat</button>
@@ -552,6 +580,7 @@
 
   function renderMessages() {
     const list = $("#messageList");
+
     const sorted = [...messages].sort((a, b) =>
       String(b.createdAt).localeCompare(String(a.createdAt))
     );
@@ -566,8 +595,10 @@
         <div class="item-meta">
           ${esc(message.createdAt ? new Date(message.createdAt).toLocaleString("cs-CZ") : "")}
         </div>
+
         <h4>${esc(message.title)}</h4>
         <p>${esc(message.text).replace(/\n/g, "<br>")}</p>
+
         <div class="item-actions">
           <button class="danger-button" data-action="delete-message" data-id="${esc(message.id)}">
             Smazat zprávu
