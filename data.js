@@ -19,7 +19,8 @@
     Inf: "Informatika",
     Vz: "Výchova ke zdraví",
     Ak: "Anglická konverzace",
-    Sh: "Sportovní hry"
+    Sh: "Sportovní hry",
+    Ch: "Chemie"
   };
 
   const teacherNames = {
@@ -32,7 +33,8 @@
     BAFR: "František Bartl",
     NEZD: "Zdeněk Nečas",
     NOMA: "Martin Novotný",
-    SION: "Ondřej Šídlák"
+    SION: "Ondřej Šídlák",
+    RYHA: "Hana Rybáková"
   };
 
   // Pořadí parametrů: předmět, učitel, učebna.
@@ -151,7 +153,8 @@
         "3": L("M", "MUSM", "204"),
         "4": L("Čjl", "SION", "202"),
         "5A": L("Z", "MUSM", "202"),
-        "6": [L("Nj", "MUSM", "201"), L("Sj", "MUIV", "202")]
+        "6": [L("Nj", "MUSM", "201"), L("Sj", "MUIV", "202")],
+        "7": [L("Ch", "RYHA", "204")
       },
       St: {
         "1": L("Čjl", "SION", "202"),
@@ -175,7 +178,8 @@
         "2": L("Čjl", "SION", "202"),
         "3": L("Vv", "LAVO", "202"),
         "4": L("Vv", "LAVO", "202"),
-        "5A": L("Z", "MUSM", "202")
+        "5A": L("Z", "MUSM", "202"),
+        "6": L("Ch", "RYHA", "204")
       }
     },
 
@@ -190,7 +194,7 @@
         "7": [L("PnP", "MUSM", "201"), L("PnP", "BAFR", "204")]
       },
       Út: {
-        "1": [L("Pč", "MUSR", "Dílna"), L("M", "SION", "204")],
+        "1": [L("Ch", "RYHA", "204")],
         "2": L("Čjl", "SION", "204"),
         "3": L("Hv", "BAFR", "202"),
         "4": L("Z", "MUSR", "204"),
@@ -207,12 +211,13 @@
         "7": [L("Nj", "MUSR", "204"), L("Sj", "MUIV", "201")]
       },
       Čt: {
-        "1": L("Čjl", "SION", "204"),
+        "1": [L("M", "BAFR", "204"), L("Čjl", "SION", "202")],
         "2": L("Čjl", "SION", "204"),
         "3": L("Aj", "MUSM", "201"),
         "4": [L("M", "BAFR", "204"), L("Inf", "NOMA", "201")],
         "5A": [L("M", "BAFR", "204"), L("Inf", "NOMA", "201")],
-        "6": L("Vz", "SPNI", "204")
+        "6": L("Vz", "SPNI", "204"),
+        "7": L("Ch", "RYHA", "204")
       },
       Pá: {
         "1": L("M", "BAFR", "204"),
