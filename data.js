@@ -34,7 +34,8 @@
     NEZD: "Zdeněk Nečas",
     NOMA: "Martin Novotný",
     SION: "Ondřej Šídlák",
-    RYHA: "Hana Rybáková"
+    RYHA: "Hana Rybáková",
+    DVJO: "Jolana Dvořáková"
   };
 
   // Pořadí parametrů: předmět, učitel, učebna.
@@ -185,7 +186,7 @@
 
     "9": {
       Po: {
-        "1": L("Aj", "MUSM", "204"),
+        "1": [L("Aj", "MUSM", "204"), L("Aj", "DVJO", "201")],
         "2": L("M", "BAFR", "204"),
         "3": L("Ov", "MUSR", "204"),
         "4": L("Př", "BALU", "204"),
@@ -213,7 +214,7 @@
       Čt: {
         "1": [L("M", "BAFR", "204"), L("Čjl", "SION", "202")],
         "2": L("Čjl", "SION", "204"),
-        "3": L("Aj", "MUSM", "201"),
+        "3": [L("Aj", "MUSM", "201"), L("Aj", "DVJO", "204")],
         "4": [L("M", "BAFR", "204"), L("Inf", "NOMA", "201")],
         "5A": [L("M", "BAFR", "204"), L("Inf", "NOMA", "201")],
         "6": L("Vz", "SPNI", "204"),
@@ -223,7 +224,7 @@
         "1": L("M", "BAFR", "204"),
         "2": L("F", "LAVO", "204"),
         "3": L("Z", "MUSR", "202"),
-        "4": L("Aj", "MUSM", "204"),
+        "4": [L("Aj", "MUSM", "204"), L("Aj", "DVJO", "201")],
         "5A": L("Čjl", "SION", "204"),
         "6": [L("Nj", "MUSR", "203"), L("Sj", "MUIV", "201")]
       }
