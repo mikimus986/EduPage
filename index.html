@@ -76,7 +76,7 @@
       <div class="page-heading">
         <div>
           <h2>Suplování</h2>
-          <p>Suplování může platit pro celou hodinu nebo jen jednu skupinu.</p>
+          <p>Suplování může platit pro více tříd, celou hodinu nebo jednu skupinu.</p>
         </div>
       </div>
 
@@ -90,15 +90,16 @@
             <input type="date" id="subDate" required>
           </label>
 
-          <label>
-            Třída
-            <select id="subClass" required>
-              <option value="6">6. třída</option>
-              <option value="7">7. třída</option>
-              <option value="8">8. třída</option>
-              <option value="9">9. třída</option>
-            </select>
-          </label>
+          <div class="form-field">
+            <span class="field-title">Třídy</span>
+            <div class="class-checkboxes" id="subClasses">
+              <label><input type="checkbox" value="6" checked> 6. třída</label>
+              <label><input type="checkbox" value="7"> 7. třída</label>
+              <label><input type="checkbox" value="8"> 8. třída</label>
+              <label><input type="checkbox" value="9"> 9. třída</label>
+            </div>
+            <small class="hint">Můžeš označit jednu nebo více tříd.</small>
+          </div>
 
           <label>
             Hodina
@@ -138,7 +139,7 @@
 
           <label>
             Nový učitel
-            <input id="subTeacher" type="text" placeholder="Nový učitel (nepovinné)">
+            <input id="subTeacher" type="text" placeholder="Nový učitel">
           </label>
 
           <label>
@@ -146,6 +147,14 @@
             <input id="subRoom" placeholder="Např. 204">
           </label>
         </div>
+
+        <label class="cancel-lesson-option">
+          <input type="checkbox" id="subCancelled">
+          <span>
+            <strong>Zrušit hodinu</strong>
+            <small>Hodina se nebude konat a nebude potřeba zadávat zastupujícího učitele.</small>
+          </span>
+        </label>
 
         <p id="groupHelp" class="hint">
           Vyber datum, třídu a hodinu. Pokud je hodina rozdělena do skupin, můžeš zvolit jednu konkrétní skupinu.
