@@ -20,7 +20,8 @@
     Vz: "Výchova ke zdraví",
     Ak: "Anglická konverzace",
     Sh: "Sportovní hry",
-    Ch: "Chemie"
+    Ch: "Chemie",
+    sAj: "Seminář anglického jazky"
   };
 
   const teacherNames = {
@@ -225,7 +226,8 @@
         "3": L("Z", "MUSR", "202"),
         "4": L("Aj", "MUSM", "204"),
         "5A": L("Čjl", "SION", "204"),
-        "6": [L("Nj", "MUSR", "203"), L("Sj", "MUIV", "201")]
+        "6": [L("Nj", "MUSR", "203"), L("Sj", "MUIV", "201")],
+        "7": L("sAj", "MUSM", "201"),
       }
     }
   };
