@@ -21,7 +21,7 @@
     Ak: "Anglická konverzace",
     Sh: "Sportovní hry",
     Ch: "Chemie",
-    sAj: "Seminář anglického jazky"
+    sAj: "Seminář anglického jazyka"
   };
 
   const teacherNames = {
